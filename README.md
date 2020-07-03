@@ -2,6 +2,18 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.2.
 
+## Design Sketch
+
+[Sketch Cloud Link](https://www.sketch.com/s/b1c65caa-a4e4-4ec1-b594-cf27600fd892)
+
+You may test navigation prototyping with sketch by:
+
+1. Click on Home (or any page)
+
+2. Click on Play button on top-right corner of desktop view or on top-center of mobile view
+
+3. Click on navigations and browse the pages
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
