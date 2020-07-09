@@ -1,6 +1,7 @@
 // Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +33,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     BrowserModule,
     NgbModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
