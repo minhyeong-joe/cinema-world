@@ -1,0 +1,50 @@
+@import '~src/variables';
+@import '~node_modules/bootstrap/scss/functions';
+@import '~node_modules/bootstrap/scss/_variables';
+@import '~node_modules/bootstrap/scss/mixins/_breakpoints';
+
+.banner-container {
+  background: no-repeat center/cover url("~src/assets/img/temp-banner.png") rgba(0,0,0,0.25);
+  height: calc(100vh - 68px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text-container {
+  transform: translateX(20vw);
+  color: white;
+  padding: 5px;
+  .title, .subtitle {
+    text-transform: uppercase;
+    text-shadow: 1px 1px 5px gray;
+  }
+  .text {
+    text-shadow: 1px 1px 5px white;
+  }
+  button {
+    font-size: 1.5rem;
+    padding: 0.6rem 3rem;
+    box-shadow: 2px 2px 4px 1px gray;
+  }
+}
+
+mat-divider {
+  border-top-width: 2px;
+}
+
+@include media-breakpoint-down(md) {
+  .banner-container {
+    height: calc(100vh - 71px);
+    background-position-x: left;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .banner-container {
+    height: calc(100vh - 66.19px);
+  }
+  .banner-text-container {
+    transform: translate(0, 20vh);
+  }
+}
