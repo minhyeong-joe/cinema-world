@@ -15,6 +15,9 @@
   margin-right: 15px;
   font-family: $syncopate;
   font-size: 1.2rem;
+  &.active {
+    border-bottom: 1px solid rgba(0,0,0,0.9);
+  }
 }
 
 .sns-container {
@@ -57,6 +60,10 @@ i {
   }
   .nav-item {
     text-align: center;
+    margin: 0;
+    &.active {
+      border: none;
+    }
   }
   .sns-container {
     margin:0 30px 0 20px;
@@ -67,11 +74,19 @@ i {
 }
 
 @include media-breakpoint-down(sm) {
+  .navbar {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
   .navbar-collapse {
     top: 59px;
   }
   .navbar-brand {
     font-size: 1.4rem;
+    margin-right: 0.2rem;
+  }
+  .navbar-toggler {
+    padding: 0.1rem 0.4rem;
   }
   .nav-item {
     font-size: 1rem;

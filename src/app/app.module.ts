@@ -1,20 +1,38 @@
+// Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+// External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+// Custom Modules
 import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
+
+// Root Component
 import { AppComponent } from './app.component';
-import { TestPageComponent } from './pages/test-page/test-page.component';
+
+// Pages Component
+import { HomeComponent } from './pages/home/home.component';
+import { AboutComponent } from './pages/about/about.component';
+import { FilmsComponent } from './pages/films/films.component';
+import { PostsComponent } from './pages/posts/posts.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestPageComponent
+    HomeComponent,
+    FilmsComponent,
+    PostsComponent,
+    PageNotFoundComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
+    NgbModule,
     AppRoutingModule,
-    NgbModule
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

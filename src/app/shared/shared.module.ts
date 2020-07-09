@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppRoutingModule } from '../app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 
 
@@ -8,7 +9,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     NavbarComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AppRoutingModule
   ],
   exports: [
     NavbarComponent
