@@ -1,0 +1,82 @@
+@import '~src/variables';
+@import '~node_modules/bootstrap/scss/functions';
+@import '~node_modules/bootstrap/scss/_variables';
+@import '~node_modules/bootstrap/scss/mixins/_breakpoints';
+
+.navbar-brand {
+  font-family: $syncopate;
+  font-size: 2.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  text-transform: uppercase;
+  margin-right: 15px;
+  font-family: $syncopate;
+  font-size: 1.2rem;
+}
+
+.sns-container {
+  display: flex;
+  align-items: center;
+  margin-left: 50px;
+}
+
+i {
+  font-size: 2rem;
+  margin: 0 4px;
+  &.fa-facebook-official {
+    color: $facebook-logo;
+  }
+  &.fa-instagram {
+    color: white;
+    transform: scale(0.9);
+    margin-top: 1px;
+  }
+  &.fa-twitter {
+    color: $twitter-logo;
+  }
+}
+
+.instagram-background {
+  background: $instagram-logo;
+  transform: scale(0.8);
+  border-radius: 8px;
+}
+
+@include media-breakpoint-down(md) {
+  .navbar-collapse {
+    position: absolute;
+    top: 78px;
+    left: 0;
+    background-color: inherit;
+    width: 100vw;
+    z-index: 10;
+    padding-bottom: 10px;
+  }
+  .nav-item {
+    text-align: center;
+  }
+  .sns-container {
+    margin:0 30px 0 20px;
+    justify-content: center;
+    border-top: 1px solid lightgray;
+    padding-top: 10px;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .navbar-collapse {
+    top: 59px;
+  }
+  .navbar-brand {
+    font-size: 1.4rem;
+  }
+  .nav-item {
+    font-size: 1rem;
+  }
+  i {
+    font-size: 1.6rem;
+  }
+}
