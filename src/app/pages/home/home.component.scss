@@ -4,11 +4,21 @@
 @import '~node_modules/bootstrap/scss/mixins/_breakpoints';
 
 .banner-container {
-  background: no-repeat center/cover url("~src/assets/img/temp-banner.png") rgba(0,0,0,0.25);
+  position: relative;
+  background: no-repeat center/cover url("~src/assets/img/banner.jpg") rgba(0,0,0,0.25);
   height: calc(100vh - 68px);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.banner-filter {
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .banner-text-container {
@@ -20,12 +30,11 @@
     text-shadow: 1px 1px 5px gray;
   }
   .text {
-    text-shadow: 1px 1px 5px white;
+    color: lightgray !important;
   }
   button {
     font-size: 1.5rem;
     padding: 0.6rem 3rem;
-    box-shadow: 2px 2px 4px 1px gray;
   }
 }
 
@@ -36,7 +45,6 @@ mat-divider {
 @include media-breakpoint-down(md) {
   .banner-container {
     height: calc(100vh - 71px);
-    background-position-x: left;
   }
 }
 
