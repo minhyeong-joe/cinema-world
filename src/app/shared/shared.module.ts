@@ -5,11 +5,13 @@ import { AppRoutingModule } from '../app-routing.module';
 import { MaterialModule } from './material.module';
 
 import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -18,6 +20,7 @@ import { NavbarComponent } from './navbar/navbar.component';
   ],
   exports: [
     NavbarComponent,
+    FooterComponent,
     MaterialModule
   ]
 })
