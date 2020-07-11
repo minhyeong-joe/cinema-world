@@ -1,0 +1,92 @@
+@import '~src/variables';
+@import '~node_modules/bootstrap/scss/functions';
+@import '~node_modules/bootstrap/scss/_variables';
+@import '~node_modules/bootstrap/scss/mixins/_breakpoints';
+
+$striped-height: 100px;
+$container-margin-bottom: $striped-height + 30px;
+
+.heading {
+  text-transform: uppercase;
+  font-size: 2rem;
+}
+
+.main-content-container {
+  margin-bottom: $container-margin-bottom;
+}
+.main-content {
+  margin-top: 15px;
+  margin-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .vertical-bar {
+    height: 40px;
+    border-left-color: lightgray;
+    border-left-width: 2px;
+    border-left-style: solid;
+    margin-left: 20px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  img {
+    width: 100%;
+  }
+  // adds zig-zag effect
+  &:nth-child(even) {
+    top: $striped-height;
+  }
+}
+
+// contact us
+.contact-us-container {
+  margin-bottom: 40px;
+}
+.contact-info-container {
+  .heading {
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .phone-row, .email-row, .address-row {
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+  }
+  .icon-col {
+    padding-right: 0;
+    text-align: right;
+    .fa-phone {
+      color: #90C418;
+    }
+    .fa-at {
+      color: $primary-blue;
+    }
+    .fa-map-marker {
+      color: #F6CF65;
+      margin-right: 4px;
+    }
+  }
+}
+.google-map-container {
+  width: 100%;
+}
+
+
+@include media-breakpoint-down(md) {
+  .main-content-container {
+    margin-bottom: 50px;
+  }
+  .main-content {
+    margin-bottom: 15px;
+    &:nth-child(even) {
+      top: 0;
+    }
+  }
+  .contact-info-container {
+    .heading {
+      margin-top: 20px;
+    }
+  }
+}
