@@ -1,11 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'variables';
-@import '~node_modules/bootstrap/scss/functions';
-@import '~node_modules/bootstrap/scss/_variables';
-@import '~node_modules/bootstrap/scss/mixins/_breakpoints';
+@import "variables";
+@import "~node_modules/bootstrap/scss/functions";
+@import "~node_modules/bootstrap/scss/_variables";
+@import "~node_modules/bootstrap/scss/mixins/_breakpoints";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 * {
   &:active,
   :focus {
@@ -14,6 +20,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 a:hover {
   text-decoration: none !important;
+}
+
+// input
+input {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  font-family: $lato;
+  &:focus {
+    border-bottom-color: rgba(0, 0, 0, 0.6);
+  }
+  &.invalid {
+    border-bottom-color: firebrick;
+  }
 }
 
 // grid system for film thumbnails
@@ -36,11 +56,11 @@ a:hover {
       transition: filter 0.15s ease-in;
     }
     .movie-title-container {
-      position:absolute;
+      position: absolute;
       padding-top: 10px;
-      background-color: rgba(0,0,0,0.8);
-      left:0;
-      right:0;
+      background-color: rgba(0, 0, 0, 0.8);
+      left: 0;
+      right: 0;
       bottom: 20%;
       text-align: center;
       opacity: 0;
@@ -63,7 +83,7 @@ a:hover {
   .grid-sm {
     grid-column-start: span 1;
     grid-row-start: span 1;
-    padding-bottom: 50%;
+    padding-bottom: 100%;
   }
   .grid-md {
     grid-column-start: span 2;
@@ -103,11 +123,14 @@ a:hover {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
-  .grid-md, .grid-lg {
+  .grid-md,
+  .grid-lg {
     grid-column-start: span 1 !important;
     grid-row-start: span 1 !important;
   }
-  .grid-sm, .grid-md, .grid-lg {
+  .grid-sm,
+  .grid-md,
+  .grid-lg {
     padding-bottom: 100% !important;
     .movie-title-container {
       .title {

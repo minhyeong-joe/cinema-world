@@ -1,0 +1,29 @@
+.search-bar-container {
+  margin-top: 50px;
+
+  mat-select {
+    width: 120px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 3px 4px 3px 12px;
+  }
+  input {
+    width: 240px;
+    margin: 0 8px;
+  }
+  button {
+    background-color: forestgreen;
+    padding: 0;
+    width: 120px;
+  }
+}
+
+.year-tabs {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 20px 0;
+  ::ng-deep.mat-tab-label,
+  ::ng-deep.mat-tab-label-active {
+    min-width: 0 !important;
+    padding: 0 8px !important;
+    margin: 0 4px !important;
+  }
+}
