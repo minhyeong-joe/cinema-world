@@ -50,11 +50,16 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/font-awesome/css/font-awesome.min.css"
+              "./node_modules/font-awesome/css/font-awesome.min.css",
+              "./node_modules/lightgallery.js/dist/css/lightgallery.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "./node_modules/lightgallery.js/dist/js/lightgallery.min.js",
+              "./node_modules/lg-zoom.js/dist/lg-zoom.min.js",
+              "./node_modules/lg-thumbnail.js/dist/lg-thumbnail.min.js",
+              "./node_modules/lg-fullscreen.js/dist/lg-fullscreen.min.js"
             ]
           },
           "configurations": {
