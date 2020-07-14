@@ -21,6 +21,10 @@ body {
 a:hover {
   text-decoration: none !important;
 }
+// lightgallery disable scroll
+.lg-on {
+  overflow: hidden;
+}
 
 // input
 input {

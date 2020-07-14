@@ -19,6 +19,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { FilmsComponent } from './pages/films/films.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { SingleFilmComponent } from './pages/single-film/single-film.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
     FilmsComponent,
     PostsComponent,
     PageNotFoundComponent,
-    AboutComponent
+    AboutComponent,
+    SingleFilmComponent
   ],
   imports: [
     BrowserModule,
