@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Choose tags to browse relevant posts!</h1>
+<div mat-dialog-content class="mt-2" cdkDropListGroup>
+  <div class="row no-gutters">
+    <p class="col-3 h6"><b>Applied Tags:</b></p>
+    <div class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="data.selectedTags" (cdkDropListDropped)="drop($event)">
+      <div class="chip" *ngFor="let tag of data.selectedTags" cdkDrag>
+        {{tag}}
+      </div>
+    </div>
+  </div>
+  <div class="row no-gutters mt-2">
+    <p class="col-3 h6"><b>Available Tags:</b></p>
+    <div class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="data.allTags" (cdkDropListDropped)="drop($event)">
+      <div class="chip" *ngFor="let tag of data.allTags" cdkDrag>
+        {{tag}}
+      </div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onClose()">Close</button>
+  <button mat-raised-button class="btn-browse" [mat-dialog-close]="data">Browse</button>
+</div>

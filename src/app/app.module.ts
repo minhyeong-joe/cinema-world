@@ -1,7 +1,7 @@
 // Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';import {DragDropModule} from '@angular/cdk/drag-drop';
 
 // External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,7 @@ import { FilmsComponent } from './pages/films/films.component';
 import { PostsComponent } from './pages/posts/posts.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { SingleFilmComponent } from './pages/single-film/single-film.component';
+import { TagsDialogComponent } from './pages/posts/tags-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +30,16 @@ import { SingleFilmComponent } from './pages/single-film/single-film.component';
     PostsComponent,
     PageNotFoundComponent,
     AboutComponent,
-    SingleFilmComponent
+    SingleFilmComponent,
+    TagsDialogComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
     AppRoutingModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
