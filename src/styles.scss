@@ -27,20 +27,6 @@ a:hover {
   overflow: hidden;
 }
 
-// input
-input {
-  border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 4px 10px;
-  font-family: $lato;
-  &:focus {
-    border-bottom-color: rgba(0, 0, 0, 0.6);
-  }
-  &.invalid {
-    border-bottom-color: firebrick;
-  }
-}
-
 // grid system for film thumbnails
 .grid-container {
   display: grid;

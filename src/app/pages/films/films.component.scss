@@ -1,3 +1,5 @@
+@import '~src/variables';
+
 .search-bar-container {
   margin-top: 50px;
 
@@ -7,8 +9,18 @@
     padding: 3px 4px 3px 12px;
   }
   input {
+    border: none;
     width: 240px;
     margin: 0 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 4px 10px;
+    font-family: $lato;
+    &:focus {
+      border-bottom-color: rgba(0, 0, 0, 0.6);
+    }
+    &.invalid {
+      border-bottom-color: firebrick;
+    }
   }
   button {
     background-color: forestgreen;
