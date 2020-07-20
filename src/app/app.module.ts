@@ -21,6 +21,7 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { SingleFilmComponent } from './pages/single-film/single-film.component';
 import { TagsDialogComponent } from './pages/posts/tags-dialog.component';
+import { SinglePostComponent } from './pages/single-post/single-post.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { TagsDialogComponent } from './pages/posts/tags-dialog.component';
     PageNotFoundComponent,
     AboutComponent,
     SingleFilmComponent,
-    TagsDialogComponent
+    TagsDialogComponent,
+    SinglePostComponent
   ],
   imports: [
     BrowserModule,

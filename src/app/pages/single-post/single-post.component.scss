@@ -1,0 +1,101 @@
+@import "~src/variables";
+@import "~node_modules/bootstrap/scss/functions";
+@import "~node_modules/bootstrap/scss/_variables";
+@import "~node_modules/bootstrap/scss/mixins/_breakpoints";
+
+.img-wrapper {
+    position: relative;
+    height: 450px;
+    &.cover-wrapper {
+        height: 550px;
+    }
+    img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+
+.author-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    img {
+        margin-right: 15px;
+        height: 80px;
+        width: 80px;
+        border-radius: 100%;
+    }
+    .name-date {
+        margin-right: 10px;
+        color: rgba(0,0,0,0.5);
+        .name span {
+            color: $primary-blue;
+        }
+    }
+}
+
+.content {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    p:first-letter {
+        font-size: 2.8rem;
+        font-weight: bold;
+    }
+    p {
+        text-indent: 4rem;
+        font-size: 1.65rem;
+        font-family: $lato;
+        line-height: 2.6rem;
+        letter-spacing: 0.02rem;
+    }
+}
+
+@include media-breakpoint-down(md) {
+    .img-wrapper {
+        position: relative;
+        height: 320px;
+        &.cover-wrapper {
+            height: 420px;
+        }
+    }
+    .display-4 {
+        font-size: 2.8rem;
+    }
+    .content {
+        p:first-letter {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        p {
+            text-indent: 3rem;
+            font-size: 1.25rem;
+            font-family: $lato;
+            line-height: 2.2rem;
+            letter-spacing: 0.01rem;
+        }
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .display-4 {
+        font-size: 2.3rem;
+    }
+    .content {
+        p:first-letter {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        p {
+            text-indent: 2.4rem;
+            font-size: 1.1rem;
+            font-family: $lato;
+            line-height: 2rem;
+            letter-spacing: 0.01rem;
+        }
+    }
+}
+  
