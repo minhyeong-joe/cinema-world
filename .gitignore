@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/public
 /tmp
 /out-tsc
 # Only exists if Bazel was run
@@ -47,3 +48,6 @@ Thumbs.db
 
 # IDE
 .vs/
+
+# config
+.env
