@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // connect to Mongo DB
-mongoose.connect(process.env.DB_URL, {useUnifiedTopology: true, useFindAndModify: true});
+mongoose.connect(process.env.DB_URL, {useUnifiedTopology: true, useNewUrlParser: true});
 
 const app = express();
 
