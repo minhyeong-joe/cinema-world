@@ -33,8 +33,3 @@ const PostSchema = mongoose.Schema({
 });
 
 const Post = module.exports = mongoose.model('Post', PostSchema);
-
-// get all posts
-module.exports.getAllPosts = (callback) => {
-  Post.find({}, callback);
-}
