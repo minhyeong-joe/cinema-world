@@ -7,7 +7,8 @@ const AdminSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   name: {
     type: {
@@ -34,8 +35,3 @@ const AdminSchema = mongoose.Schema({
 });
 
 const Admin = module.exports = mongoose.model('Admin', AdminSchema);
-
-// get all admins
-module.exports.getAllAdmins = (callback) => {
-  Admin.find({}, callback);
-}

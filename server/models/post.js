@@ -17,11 +17,11 @@ const PostSchema = mongoose.Schema({
   },
   cover_url: String,
   tags: [{
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: Tag
   }],
   author: {
-    type: mongoose.ObjectId,
+    type: mongoose.Types.ObjectId,
     ref: Admin,
     required: true
   },
