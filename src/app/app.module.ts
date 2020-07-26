@@ -1,7 +1,9 @@
 // Angular Modules
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';import {DragDropModule} from '@angular/cdk/drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HttpClientModule } from '@angular/common/http';
 
 // External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -41,7 +43,8 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
-    DragDropModule
+    DragDropModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

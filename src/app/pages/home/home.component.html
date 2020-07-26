@@ -11,35 +11,41 @@
 <p class="h1 mt-4 mb-2 text-center">Latest Films</p>
 <mat-divider class="w-75 mx-auto mb-4"></mat-divider>
 
-<div class="grid-container">
-  <div class="grid grid-sm">
-    <img class="movie-thumbnail img-fluid" src="../../../assets/img/poster.jpg">
-    <div class="movie-title-container">
-      <p class="h4 title">Movie Title</p>
-      <p class="lead text-muted director-year">Director | Year</p>
+<ng-container *ngIf="latestFilms?.length > 0">
+
+  <div class="grid-container">
+    <div class="grid grid-sm" [routerLink]="['film', latestFilms[0]._id]">
+      <img class="movie-thumbnail img-fluid" src="{{latestFilms[0].poster_url}}">
+      <div class="movie-title-container">
+        <p class="h4 title">{{latestFilms[0].title}}</p>
+        <p class="lead text-muted director-year">{{latestFilms[0].director[0]}} | {{latestFilms[0].release_date | date:'yyyy'}}</p>
+      </div>
+    </div>
+    <div class="grid grid-sm" [routerLink]="['film', latestFilms[1]._id]">
+      <img class="movie-thumbnail img-fluid" src="{{latestFilms[1].poster_url}}">
+      <div class="movie-title-container">
+        <p class="h4 title">{{latestFilms[1].title}}</p>
+        <p class="lead text-muted director-year">{{latestFilms[1].director[0]}} | {{latestFilms[1].release_date | date:'yyyy'}}</p>
+      </div>
+    </div>
+    <div class="grid grid-lg" [routerLink]="['film', latestFilms[2]._id]">
+      <img class="movie-thumbnail img-fluid" src="{{latestFilms[2].poster_url}}">
+      <div class="movie-title-container">
+        <p class="h4 title">{{latestFilms[2].title}}</p>
+        <p class="lead text-muted director-year">{{latestFilms[2].director[0]}} | {{latestFilms[2].release_date | date:'yyyy'}}</p>
+      </div>
+    </div>
+    <div class="grid grid-md" [routerLink]="['film', latestFilms[3]._id]">
+      <img class="movie-thumbnail img-fluid" src="{{latestFilms[3].poster_url}}">
+      <div class="movie-title-container">
+        <p class="h4 title">{{latestFilms[3].title}}</p>
+        <p class="lead text-muted director-year">{{latestFilms[3].director[0]}} | {{latestFilms[3].release_date | date:'yyyy'}}</p>
+      </div>
     </div>
   </div>
-  <div class="grid grid-sm">
-    <img class="movie-thumbnail img-fluid" src="../../../assets/img/poster2.jpg">
-    <div class="movie-title-container">
-      <p class="h4 title">Movie Title</p>
-      <p class="lead text-muted director-year">Director | Year</p>
-    </div>
-  </div>
-  <div class="grid grid-lg">
-    <img class="movie-thumbnail img-fluid" src="../../../assets/img/poster4.jpeg">
-    <div class="movie-title-container">
-      <p class="h4 title">Movie Title</p>
-      <p class="lead text-muted director-year">Director | Year</p>
-    </div>
-  </div>
-  <div class="grid grid-md">
-    <img class="movie-thumbnail img-fluid" src="../../../assets/img/poster3.jpg">
-    <div class="movie-title-container">
-      <p class="h4 title">Movie Title</p>
-      <p class="lead text-muted director-year">Director | Year</p>
-    </div>
-  </div>
-</div>
+
+</ng-container>
+
+
 
 
