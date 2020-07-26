@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // get first 4 movies of all movies (internally sorted by release_date desc)
-    this.getFilmsSub = this.filmService.getFilmByTitle("", 4, 1)
+    this.getFilmsSub = this.filmService.getFilmsByTitle("", 4, 1)
       .subscribe((res: any) => {
         if (res.success) {
           this.latestFilms = res.films;
