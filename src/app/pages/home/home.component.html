@@ -14,28 +14,28 @@
 <ng-container *ngIf="latestFilms?.length > 0">
 
   <div class="grid-container">
-    <div class="grid grid-sm" [routerLink]="['film', latestFilms[0]._id]">
+    <div class="grid grid-sm order-1" [routerLink]="['film', latestFilms[0]._id]">
       <img class="movie-thumbnail img-fluid" src="{{latestFilms[0].poster_url}}">
       <div class="movie-title-container">
         <p class="h4 title">{{latestFilms[0].title}}</p>
         <p class="lead text-muted director-year">{{latestFilms[0].director[0]}} | {{latestFilms[0].release_date | date:'yyyy'}}</p>
       </div>
     </div>
-    <div class="grid grid-sm" [routerLink]="['film', latestFilms[1]._id]">
+    <div class="grid grid-sm order-2" [routerLink]="['film', latestFilms[1]._id]">
       <img class="movie-thumbnail img-fluid" src="{{latestFilms[1].poster_url}}">
       <div class="movie-title-container">
         <p class="h4 title">{{latestFilms[1].title}}</p>
         <p class="lead text-muted director-year">{{latestFilms[1].director[0]}} | {{latestFilms[1].release_date | date:'yyyy'}}</p>
       </div>
     </div>
-    <div class="grid grid-lg" [routerLink]="['film', latestFilms[2]._id]">
+    <div class="grid grid-md order-3 order-lg-4" [routerLink]="['film', latestFilms[2]._id]">
       <img class="movie-thumbnail img-fluid" src="{{latestFilms[2].poster_url}}">
       <div class="movie-title-container">
         <p class="h4 title">{{latestFilms[2].title}}</p>
         <p class="lead text-muted director-year">{{latestFilms[2].director[0]}} | {{latestFilms[2].release_date | date:'yyyy'}}</p>
       </div>
     </div>
-    <div class="grid grid-md" [routerLink]="['film', latestFilms[3]._id]">
+    <div class="grid grid-lg order-4 order-lg-3" [routerLink]="['film', latestFilms[3]._id]">
       <img class="movie-thumbnail img-fluid" src="{{latestFilms[3].poster_url}}">
       <div class="movie-title-container">
         <p class="h4 title">{{latestFilms[3].title}}</p>

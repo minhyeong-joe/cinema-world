@@ -24,6 +24,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { SingleFilmComponent } from './pages/single-film/single-film.component';
 import { TagsDialogComponent } from './pages/posts/tags-dialog.component';
 import { SinglePostComponent } from './pages/single-post/single-post.component';
+import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SinglePostComponent } from './pages/single-post/single-post.component';
     AboutComponent,
     SingleFilmComponent,
     TagsDialogComponent,
-    SinglePostComponent
+    SinglePostComponent,
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,

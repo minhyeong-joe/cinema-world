@@ -12,39 +12,47 @@
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </div>
             </div>
-            <p class="h2 movie-title mt-3 text-center text-md-left">Movie Title</p>
+            <p class="h2 movie-title mt-3 text-center text-md-left">{{film?.title}}</p>
             <div class="row film-detail-container justify-content-center">
                 <div class="col-8 col-md-6 film-poster-container mb-3 mb-md-0">
-                    <img src="../../../assets/img/poster.jpg" class="img-fluid" alt="Poster">
+                    <img src="{{film?.poster_url}}" class="img-fluid" alt="Poster">
                 </div>
                 <div class="col-12 col-md-6 film-info no-gutters">
                     <div class="row">
                         <p class="label col-3">Director:</p>
-                        <p class="content col-9">Great Director</p>
+                        <p class="content col-9">
+                          <span *ngFor="let dir of film?.director; index as i">
+                            {{dir}}
+                            <ng-container *ngIf="i < film.director.length - 1">, </ng-container>
+                          </span>
+                        </p>
                     </div>
                     <div class="row">
                         <p class="label col-3">Release Date:</p>
-                        <p class="content col-9">2020.07.12</p>
+                        <p class="content col-9">{{film?.release_date | date:'yyyy.MM.dd'}}</p>
                     </div>
                     <div class="row">
                         <p class="label col-3">Rating:</p>
-                        <p class="content col-9">9.5 / 10</p>
+                        <p class="content col-9">{{film?.rating}} / 10</p>
                     </div>
                     <div class="row mb-2">
                         <p class="label col-3">Casts:</p>
-                        <p class="content col-9">Star One, Star Two, Star Three, Star Four</p>
+                        <p class="content col-9">
+                          <span *ngFor="let cast of film?.casts; index as i">
+                            {{cast}}
+                            <ng-container *ngIf="i < film.casts.length - 1">, </ng-container>
+                          </span>
+                        </p>
                     </div>
                     <div class="row">
                         <p class="label col-3">Synopsis:</p>
-                        <p class="content col-9">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eaque
-                            temporibus fuga voluptatum consequatur impedit distinctio hic dolorem, ut itaque
-                            aspernatur eos nostrum. Dicta, distinctio dolor culpa est cupiditate harum vitae.</p>
+                        <p class="content col-9">{{film?.synopsis}}</p>
                     </div>
                 </div>
             </div> <!-- end of film poster & info-->
 
             <div class="trailer-container mt-5">
-                <iframe src="https://www.youtube-nocookie.com/embed/TcMBFSGVi1c" frameborder="0"
+                <iframe [src]="youtube_url | safeUrl" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>
@@ -57,33 +65,10 @@
     <div class="row no-gutters justify-content-center">
         <div class="col-12 col-md-10 gallery">
             <div class="row" id="lightgallery">
-                <a class="thumbnail col-12 col-md-6" href="../../../assets/img/poster2.jpg" data-sub-html="#caption1">
-                    <img src="../../../assets/img/poster2.jpg" alt="gallery1">
-                </a>
-                <a class="thumbnail col-12 col-md-6" href="../../../assets/img/poster3.jpg" data-sub-html="#caption2">
-                    <img src="../../../assets/img/poster3.jpg" alt="gallery2">
-                </a>
-                <a class="thumbnail col-12 col-md-6" href="../../../assets/img/poster4.jpeg" data-sub-html="#caption3">
-                    <img src="../../../assets/img/poster4.jpeg" alt="gallery3">
-                </a>
-                <a class="thumbnail col-12 col-md-6" href="../../../assets/img/poster.jpg" data-sub-html="#caption4">
-                    <img src="../../../assets/img/poster.jpg" alt="gallery4">
+                <a *ngFor="let url of film?.gallery_url; index as i" class="thumbnail col-12 col-md-6" href="{{url}}">
+                  <img src="{{url}}" alt="gallery{{i+1}}">
                 </a>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Captions -->
-<div id="caption1" class="d-none">
-    <h3>Caption 1</h3>
-</div>
-<div id="caption2" class="d-none">
-  <h3>Caption 2</h3>
-</div>
-<div id="caption3" class="d-none">
-  <h3>Caption 3</h3>
-</div>
-<div id="caption4" class="d-none">
-  <h3>Caption 4</h3>
 </div>
