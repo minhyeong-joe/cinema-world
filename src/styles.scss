@@ -12,6 +12,17 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+// to keep footer at the bottom even if content is empty.
+.full-height {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 150px; // height of footer
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 * {
   &:active,
   :focus {
