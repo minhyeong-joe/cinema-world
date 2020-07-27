@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { PageEvent } from '@angular/material/paginator';
@@ -21,15 +21,15 @@ export class FilmsComponent implements OnInit, OnDestroy {
   public pageEvent: PageEvent;
   public films: Film[];
   public isByYear: boolean;
-  public searchForm = new FormGroup({
-    searchBy: new FormControl('title'),
-    query: new FormControl('')
+  public searchForm = this.fb.group({
+    searchBy: ['title', Validators.pattern(/title|director/)],
+    query: ['', [Validators.required, Validators.minLength(3)]]
   });
 
   private getFilmsSub: Subscription;
   private getCountSub: Subscription;
 
-  constructor(private filmService: FilmService) { }
+  constructor(private filmService: FilmService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.pageEvent = new PageEvent();

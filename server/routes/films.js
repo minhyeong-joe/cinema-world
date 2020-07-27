@@ -101,8 +101,6 @@ router.get('/year-count/:year', (req, res) => {
 router.get('/title-count/:title', (req, res) => {
   let title = req.params['title'];
   let titleLike = new RegExp(`.*${title}.*`, "gi");
-  console.log(title);
-  console.log(titleLike);
   Film.countDocuments({title: { $regex: titleLike }})
       .exec((err, count) => {
         if (err) {

@@ -4,7 +4,7 @@
     <mat-option value="director">Director</mat-option>
   </mat-select>
   <input matInput formControlName="query"/>
-  <button mat-raised-button color="primary">Search</button>
+  <button mat-raised-button color="primary" [disabled]="!searchForm.valid">Search</button>
 </form>
 
 <div class="films-container">
