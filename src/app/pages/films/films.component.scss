@@ -39,3 +39,13 @@
     margin: 0 4px !important;
   }
 }
+
+// to keep paginator at the bottom
+.paginator {
+  position: absolute;
+  width: 100%;
+  bottom: 150px; // height of footer
+  * {
+    font-size: 1.2rem;
+  }
+}

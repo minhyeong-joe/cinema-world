@@ -1,15 +1,15 @@
-<div class="search-bar-container container-fluid d-flex flex-row justify-content-center align-items-center">
-  <mat-select>
+<form [formGroup]="searchForm" (submit)="onSearch()" class="search-bar-container container-fluid d-flex flex-row justify-content-center align-items-center">
+  <mat-select formControlName="searchBy">
     <mat-option value="title">Title</mat-option>
     <mat-option value="director">Director</mat-option>
   </mat-select>
-  <input matInput />
+  <input matInput formControlName="query"/>
   <button mat-raised-button color="primary">Search</button>
-</div>
+</form>
 
 <div class="films-container">
   <div class="row no-gutters justify-content-center">
-    <div class="col-10 year-tabs">
+    <div class="col-10 year-tabs" *ngIf="isByYear">
       <mat-tab-group (selectedTabChange)="onYearSelect($event)">
         <mat-tab *ngFor="let year of this.years"
                   label="{{year}}">
@@ -17,8 +17,14 @@
       </mat-tab-group>
     </div>
   </div>
+  <button class="btn btn-link mx-auto my-3 d-block" *ngIf="!isByYear" (click)="onSearchByYearClick()">Search By Year</button>
 
-  <div class="grid-container">
+
+  <div class="alert alert-warning mx-5 h4" *ngIf="films?.length == 0">
+    <i class="fa fa-meh-o" aria-hidden="true"></i> No film found.
+  </div>
+
+  <div class="grid-container" *ngIf="films?.length > 0">
     <div *ngFor="let film of films" class="grid grid-sm" [routerLink]="['/film', film._id]">
       <img class="movie-thumbnail img-fluid" src="{{film.poster_url}}" />
       <div class="movie-title-container">
@@ -29,5 +35,12 @@
   </div>
 </div>
 
-<mat-paginator [length]="100" [pageSize]="20" [hidePageSize]="true">
-</mat-paginator>
+<div class="paginator">
+  <mat-paginator
+    [length]="pageEvent?.length"
+    [pageSize]="pageEvent?.pageSize"
+    [hidePageSize]="true"
+    [pageIndex]="pageEvent?.pageIndex"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

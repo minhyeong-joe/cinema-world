@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -47,6 +48,7 @@ import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
     BrowserAnimationsModule,
     DragDropModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

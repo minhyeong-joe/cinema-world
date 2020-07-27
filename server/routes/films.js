@@ -80,4 +80,52 @@ router.get('/:id', (req, res) => {
   });
 });
 
+// @desc  Returns total count of films matching the year
+// @route GET /api/films/year-count/:year
+router.get('/year-count/:year', (req, res) => {
+  let year = parseInt(req.params['year']);
+  let start = new Date(year, 0);
+  let end = new Date(year+1, 0);
+  Film.countDocuments({release_date: { $gte: start, $lt: end }})
+      .exec((err, count) => {
+        if (err) {
+          res.status(500).json({success:false, message: "Unknown Error occurred"});
+        } else {
+          res.status(200).json({success: true, count: count});
+        }
+      });
+});
+
+// @desc  Returns total count of films matching the title
+// @route GET /api/films/title-count/:title
+router.get('/title-count/:title', (req, res) => {
+  let title = req.params['title'];
+  let titleLike = new RegExp(`.*${title}.*`, "gi");
+  console.log(title);
+  console.log(titleLike);
+  Film.countDocuments({title: { $regex: titleLike }})
+      .exec((err, count) => {
+        if (err) {
+          res.status(500).json({success:false, message: "Unknown Error occurred"});
+        } else {
+          res.status(200).json({success: true, count: count});
+        }
+      });
+});
+
+// @desc  Returns total count of films matching the director
+// @route GET /api/films/director-count/:director
+router.get('/director-count/:director', (req, res) => {
+  let director = req.params['director'];
+  let directorLike = new RegExp(`.*${director}.*`, "gi");
+  Film.countDocuments({director: { $regex: directorLike }})
+      .exec((err, count) => {
+        if (err) {
+          res.status(500).json({success:false, message: "Unknown Error occurred"});
+        } else {
+          res.status(200).json({success: true, count: count});
+        }
+      });
+});
+
 module.exports = router;

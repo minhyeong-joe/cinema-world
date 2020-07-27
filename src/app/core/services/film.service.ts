@@ -21,13 +21,37 @@ export class FilmService {
 
   // Get films by title
   // GET api/films/title?title=:title&lim=:lim&page=:page
-  getFilmsByTitle(title: String, lim: Number, page: Number):Observable<{success:Boolean, films:Film[]} | {success:Boolean, message:String}> {
-    return this.http.get<{success:Boolean, films:Film[]} | {success:Boolean, message:String}>(`${this.API_ENDPOINT}/title?title=${title}&lim=${lim}&page=${page}`);
+  getFilmsByTitle(title: String, lim: Number, page: Number):Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/title?title=${title}&lim=${lim}&page=${page}`);
   }
 
   // Get films by year
   // GET api/films/year?year=:year&lim=:lim&page=:page
   getFilmsByYear(year: Number, lim: Number, page: Number):Observable<any> {
-    return this.http.get<any>(`${this.API_ENDPOINT}/year?year=${year}&lim${lim}&page=${page}`);
+    return this.http.get<any>(`${this.API_ENDPOINT}/year?year=${year}&lim=${lim}&page=${page}`);
+  }
+
+  // Get films by director
+  // GET api/films/director?director=:director&lim=:lim&page=:page
+  getFilmsByDirector(director:string, lim: number, page: number):Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/director?director=${director}&lim=${lim}&page=${page}`);
+  }
+
+  // Get total count of films by title
+  // GET api/films/title-count/:title
+  getCountByTitle(title: string):Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/title-count/${title}`);
+  }
+
+  // Get total count of films by year
+  // GET api/films/year-count/:year
+  getCountByYear(year: number):Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/year-count/${year}`);
+  }
+
+  // Get total count of films by director
+  // GET api/films/director-count/:director
+  getCountByDirector(director: string):Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/director-count/${director}`);
   }
 }
