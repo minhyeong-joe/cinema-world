@@ -10,7 +10,7 @@
 <div class="films-container">
   <div class="row no-gutters justify-content-center">
     <div class="col-10 year-tabs" *ngIf="isByYear">
-      <mat-tab-group (selectedTabChange)="onYearSelect($event)">
+      <mat-tab-group (selectedTabChange)="onYearSelect($event)" class="mat-tab-group">
         <mat-tab *ngFor="let year of this.years"
                   label="{{year}}">
         </mat-tab>
