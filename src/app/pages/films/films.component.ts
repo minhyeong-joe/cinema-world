@@ -55,10 +55,14 @@ export class FilmsComponent implements OnInit, OnDestroy {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('title');
         this.searchForm.get('query').setValue(session['title']);
+        this.selectedYear = currentYear;
+        this.selectedTabIndex = 0;
       } else {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('director');
         this.searchForm.get('query').setValue(session['director']);
+        this.selectedYear = currentYear;
+        this.selectedTabIndex = 0;
       }
       this.pageEvent.pageIndex = session['page']-1;
       this.session.clearFilmsHistory();
@@ -89,6 +93,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
 
   onYearSelect(event: MatTabChangeEvent) {
     this.selectedYear = parseInt(event.tab.textLabel);
+    this.selectedTabIndex = event.index;
     this.resetPagination();
     this.renderList();
   }
@@ -105,7 +110,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
       searchBy: 'title',
       query: ''
     });
-    this.selectedYear = this.years[0];
+    this.selectedYear = this.years[this.selectedTabIndex];
     this.resetPagination();
     this.renderList();
   }
@@ -130,7 +135,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
       const query:string = this.searchForm.get('query').value;
       switch (searchBy) {
         case "title":
-          this.getFilmsSub = this.filmService.getCountByTitle(query)
+          this.getCountSub = this.filmService.getCountByTitle(query)
           .subscribe(res => {
             if (res.success) {
               this.pageEvent.pageIndex = 0;
@@ -140,7 +145,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
           })
           break;
         case "director":
-          this.getFilmsSub = this.filmService.getCountByDirector(query)
+          this.getCountSub = this.filmService.getCountByDirector(query)
           .subscribe(res => {
             if (res.success) {
               this.pageEvent.pageIndex = 0;

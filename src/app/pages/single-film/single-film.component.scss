@@ -19,6 +19,11 @@
         i {
             font-size: 1rem;
         }
+        &.disabled {
+          background-color: rgba(0,0,0,0.08);
+          color: rgba(0,0,0,0.25);
+          pointer-events: none;
+        }
     }
     .prev>i {
         margin-right: 3px;

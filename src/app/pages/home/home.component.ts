@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (res.success) {
           this.latestFilms = res.films;
         }
-        console.log(this.latestFilms);
       });
   }
 

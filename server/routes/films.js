@@ -126,4 +126,135 @@ router.get('/director-count/:director', (req, res) => {
       });
 });
 
+// @desc   returns prev film among list by year
+// @route  GET /api/films/year-prev/:year/:id
+router.get('/year-prev/:year/:id', (req, res) => {
+  const year = parseInt(req.params['year']);
+  const end = new Date(year+1, 0);
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    if (err) throw err;
+    Film.find({release_date: { $gt: curFilm.release_date, $lt: end } })
+        .sort({release_date: 'asc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, prev: id});
+          }
+        });
+  });
+});
+
+// @desc   returns next film among list by year
+// @route  GET /api/films/year-next/:year/:id
+router.get('/year-next/:year/:id', (req, res) => {
+  const year = parseInt(req.params['year']);
+  const start = new Date(year, 0);
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    Film.find({release_date: { $gte: start, $lt: curFilm.release_date }})
+        .sort({release_date: 'desc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, next: id});
+          }
+        });
+  });
+});
+
+// @desc   returns prev film among list by title
+// @route  GET /api/films/title-prev/:title/:id
+router.get('/title-prev/:title/:id', (req, res) => {
+  let title = req.params['title'];
+  let titleLike = new RegExp(`.*${title}.*`, "gi");
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    if (err) throw err;
+    Film.find({title: { $regex: titleLike }, release_date: { $gt: curFilm.release_date }})
+        .sort({release_date: 'asc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, prev: id});
+          }
+        });
+  });
+});
+
+// @desc   returns next film among list by title
+// @route  GET /api/films/title-next/:title/:id
+router.get('/title-next/:title/:id', (req, res) => {
+  let title = req.params['title'];
+  let titleLike = new RegExp(`.*${title}.*`, "gi");
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    if (err) throw err;
+    Film.find({title: { $regex: titleLike }, release_date: { $lt: curFilm.release_date }})
+        .sort({release_date: 'desc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, next: id});
+          }
+        });
+  });
+});
+
+// @desc   returns prev film among list by director
+// @route  GET /api/films/director-prev/:director/:id
+router.get('/director-prev/:director/:id', (req, res) => {
+  let director = req.params['director'];
+  let directorLike = new RegExp(`.*${director}.*`, "gi");
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    if (err) throw err;
+    Film.find({director: { $regex: directorLike }, release_date: { $gt: curFilm.release_date }})
+        .sort({release_date: 'asc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, prev: id});
+          }
+        });
+  });
+});
+
+// @desc   returns next film among list by director
+// @route  GET /api/films/director-next/:director/:id
+router.get('/director-next/:director/:id', (req, res) => {
+  let director = req.params['director'];
+  let directorLike = new RegExp(`.*${director}.*`, "gi");
+  const id = req.params['id'];
+  Film.findById(id, (err, curFilm) => {
+    if (err) throw err;
+    Film.find({director: { $regex: directorLike }, release_date: { $lt: curFilm.release_date }})
+        .sort({release_date: 'desc'})
+        .findOne({})
+        .exec((err, film) => {
+          if (err) {
+            res.status(500).json({success:false, message: "Unknown Error occurred"});
+          } else {
+            const id = film? film._id : null;
+            res.status(200).json({success:true, next: id});
+          }
+        });
+  });
+});
+
 module.exports = router;

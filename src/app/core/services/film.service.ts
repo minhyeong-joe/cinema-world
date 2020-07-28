@@ -54,4 +54,28 @@ export class FilmService {
   getCountByDirector(director: string):Observable<any> {
     return this.http.get<any>(`${this.API_ENDPOINT}/director-count/${director}`);
   }
+
+  // get previous film
+  getPrevious(query: any, id: string, by: string):Observable<any> {
+    switch (by) {
+      case "year":
+        return this.http.get<any>(`${this.API_ENDPOINT}/year-prev/${query}/${id}`);
+      case "title":
+        return this.http.get<any>(`${this.API_ENDPOINT}/title-prev/${query}/${id}`);
+      case "director":
+        return this.http.get<any>(`${this.API_ENDPOINT}/director-prev/${query}/${id}`);
+    }
+  }
+
+  // get next film
+  getNext(query: number | string, id: string, by: string):Observable<any> {
+    switch (by) {
+      case "year":
+        return this.http.get<any>(`${this.API_ENDPOINT}/year-next/${query}/${id}`);
+      case "title":
+        return this.http.get<any>(`${this.API_ENDPOINT}/title-next/${query}/${id}`);
+      case "director":
+        return this.http.get<any>(`${this.API_ENDPOINT}/director-next/${query}/${id}`);
+    }
+  }
 }

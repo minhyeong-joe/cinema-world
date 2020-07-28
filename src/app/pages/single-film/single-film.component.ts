@@ -17,15 +17,37 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
 
   public film: Film;
   public youtube_url: string;
-  public history: Object;
+  public prevId: string;
+  public nextId: string;
 
   constructor(private filmService: FilmService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private session: LocalStorageService) { }
 
   ngOnInit(): void {
     // get ID from path
     this.getIdSub = this.route.params.subscribe(params => {
       const id = params['id'];
+      // find prev & next films
+      const session = this.session.getFilmsHistory();
+      if (session) {
+        const query = session['year'] || session['title'] || session['director'];
+        const by = session['year'] != null? "year" : (session['title'] != null? "title" : "director");
+        this.filmService.getPrevious(query, id, by)
+        .subscribe(res => {
+          if (res.success) {
+            this.prevId = res.prev;
+          }
+        });
+        this.filmService.getNext(query, id, by)
+        .subscribe(res => {
+          if (res.success) {
+            this.nextId = res.next;
+          }
+        });
+      }
+
+
       // load film by id
       this.getFilmSub = this.filmService.getFilmById(id)
       .subscribe((res:any) => {
@@ -33,7 +55,6 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
           this.film = res.film;
           this.youtube_url = "https://www.youtube-nocookie.com/embed/" + this.film.youtube_trailer_id;
         }
-        console.log(this.film);
         // initialize light gallery
         // using setTimeout 0, let Angular creates view first before initializing light gallery.
         setTimeout( () => {
