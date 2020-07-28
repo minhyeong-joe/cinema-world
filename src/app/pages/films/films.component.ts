@@ -6,6 +6,8 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { FilmService } from 'src/app/core/services/film.service';
 import { Film } from 'src/app/core/models/film';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { ActivatedRoute } from '@angular/router';
 
 const FROM_YEAR: number = 2000;
 const PAGE_SIZE: number = 20;
@@ -17,6 +19,7 @@ const PAGE_SIZE: number = 20;
 })
 export class FilmsComponent implements OnInit, OnDestroy {
   public selectedYear: number;
+  public selectedTabIndex: number;
   public years: number[];
   public pageEvent: PageEvent;
   public films: Film[];
@@ -29,22 +32,59 @@ export class FilmsComponent implements OnInit, OnDestroy {
   private getFilmsSub: Subscription;
   private getCountSub: Subscription;
 
-  constructor(private filmService: FilmService, private fb: FormBuilder) { }
+  constructor(private filmService: FilmService,
+              private fb: FormBuilder,
+              private session: LocalStorageService) { }
 
   ngOnInit(): void {
     this.pageEvent = new PageEvent();
-    this.isByYear = true;
     // initialize year list from current year -> 2000 (const FROM_YEAR)
     const currentYear = new Date().getFullYear();
     this.years = [];
     for (let y = currentYear; y >= FROM_YEAR; y--) {
       this.years.push(y);
     }
-    this.selectedYear = currentYear;
+    // if coming from single page, use session, else use default (latest film first by year)
+    const session = this.session.getFilmsHistory();
+    if (session) {
+      if (session['year'] != null) {
+        this.isByYear = true;
+        this.selectedYear = session['year'];
+        this.selectedTabIndex = this.years.indexOf(session['year']);
+      } else if (session['title'] != null) {
+        this.isByYear = false;
+        this.searchForm.get('searchBy').setValue('title');
+        this.searchForm.get('query').setValue(session['title']);
+      } else {
+        this.isByYear = false;
+        this.searchForm.get('searchBy').setValue('director');
+        this.searchForm.get('query').setValue(session['director']);
+      }
+      this.pageEvent.pageIndex = session['page']-1;
+      this.session.clearFilmsHistory();
+    }
+    else {
+      this.isByYear = true;
+      this.selectedYear = currentYear;
+      this.selectedTabIndex = 0;
+    }
     // pagination initialize
     this.resetPagination();
     // initialize first list with current year
     this.renderList();
+  }
+
+  onClickFilm() {
+    let query: number | string;
+    let by: string;
+    if (this.isByYear) {
+      query = this.selectedYear;
+      by = "year";
+    } else {
+      query = this.searchForm.get('query').value;
+      by = this.searchForm.get('searchBy').value;
+    }
+    this.session.storeFilmsHistory(query, this.pageEvent.pageIndex+1, by);
   }
 
   onYearSelect(event: MatTabChangeEvent) {
@@ -69,7 +109,6 @@ export class FilmsComponent implements OnInit, OnDestroy {
     this.resetPagination();
     this.renderList();
   }
-
 
   onPageChange(event:PageEvent) {
     this.pageEvent = event;

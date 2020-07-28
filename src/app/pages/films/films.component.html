@@ -10,7 +10,7 @@
 <div class="films-container">
   <div class="row no-gutters justify-content-center">
     <div class="col-10 year-tabs" *ngIf="isByYear">
-      <mat-tab-group (selectedTabChange)="onYearSelect($event)" class="mat-tab-group">
+      <mat-tab-group (selectedTabChange)="onYearSelect($event)" class="mat-tab-group" [selectedIndex]="selectedTabIndex">
         <mat-tab *ngFor="let year of this.years"
                   label="{{year}}">
         </mat-tab>
@@ -25,7 +25,7 @@
   </div>
 
   <div class="grid-container" *ngIf="films?.length > 0">
-    <div *ngFor="let film of films" class="grid grid-sm" [routerLink]="['/film', film._id]">
+    <div *ngFor="let film of films" class="grid grid-sm" [routerLink]="['/film', film._id]" (click)="onClickFilm()">
       <img class="movie-thumbnail img-fluid" src="{{film.poster_url}}" />
       <div class="movie-title-container">
         <p class="h4 title">{{film.title}}</p>

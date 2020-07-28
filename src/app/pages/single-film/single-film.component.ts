@@ -3,6 +3,7 @@ import { FilmService } from 'src/app/core/services/film.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Film } from 'src/app/core/models/film';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 declare var lightGallery: any;
 
 @Component({
@@ -15,9 +16,11 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   private getFilmSub: Subscription;
 
   public film: Film;
-  public youtube_url: String;
+  public youtube_url: string;
+  public history: Object;
 
-  constructor(private filmService: FilmService, private route: ActivatedRoute) { }
+  constructor(private filmService: FilmService,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // get ID from path
