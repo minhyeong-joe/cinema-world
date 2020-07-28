@@ -3,6 +3,7 @@
 @import '~node_modules/bootstrap/scss/_variables';
 @import '~node_modules/bootstrap/scss/mixins/_breakpoints';
 
+// Navbar
 .navbar {
   background-color: white;
   box-shadow: 0 2px 4px -2px rgba(0,0,0,.5);
@@ -26,6 +27,7 @@
   }
 }
 
+// SNS icons
 .sns-container {
   display: flex;
   align-items: center;
@@ -36,7 +38,7 @@ i {
   font-size: 2rem;
   margin: 0 4px;
   &.fa-facebook-official {
-    color: $facebook-logo;
+    color: $facebook-logo-color;
   }
   &.fa-instagram {
     color: white;
@@ -44,12 +46,12 @@ i {
     margin-top: 1px;
   }
   &.fa-twitter {
-    color: $twitter-logo;
+    color: $twitter-logo-color;
   }
 }
 
 .instagram-background {
-  background: $instagram-logo;
+  background: $instagram-logo-color;
   transform: scale(0.8);
   border-radius: 8px;
 }
@@ -84,13 +86,14 @@ i {
   }
 }
 
+// Mobile view navbar items
 @include media-breakpoint-down(md) {
   .navbar-collapse {
     position: absolute;
     top: 71px;
     left: 0;
     background-color: inherit;
-    width: 100vw;
+    width: 100%;
     z-index: 10;
     padding-bottom: 10px;
     box-shadow: 0 2px 4px -2px rgba(0,0,0,.4);
@@ -110,7 +113,7 @@ i {
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
   .navbar {
     padding-left: 4px;
     padding-right: 4px;

@@ -3,6 +3,7 @@
 @import '~node_modules/bootstrap/scss/_variables';
 @import '~node_modules/bootstrap/scss/mixins/_breakpoints';
 
+// by how much the right column moves down
 $striped-height: 100px;
 $container-margin-bottom: $striped-height + 30px;
 
@@ -53,6 +54,7 @@ $container-margin-bottom: $striped-height + 30px;
   .phone-row, .email-row, .address-row {
     font-size: 1.5rem;
     margin-bottom: 18px;
+    line-height: 1.65rem;
   }
   .icon-col {
     padding-right: 0;

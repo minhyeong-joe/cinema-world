@@ -4,25 +4,22 @@
 @import "~node_modules/bootstrap/scss/_variables";
 @import "~node_modules/bootstrap/scss/mixins/_breakpoints";
 
+// global styles
 html,
 body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: $roboto, "Helvetica Neue", sans-serif;
 }
 // to keep footer at the bottom even if content is empty.
-.full-height {
+.full-height-wrapper {
   min-height: 100vh;
   position: relative;
-  padding-bottom: 150px; // height of footer
+  padding-bottom: $footer-height;
 }
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
+// reset bootstrap outlines and link underline
 * {
   &:active,
   :focus {
@@ -40,6 +37,7 @@ a:hover {
 
 // rectangle button, reverse color on hover
 .btn.btn-rectangle {
+  display: block;
   border: 2px solid $primary-blue;
   border-radius: 0;
   padding: .4rem 1.5rem;
@@ -61,6 +59,7 @@ a:hover {
 }
 
 // grid system for film thumbnails
+// used in both home page and films page
 .grid-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -143,7 +142,7 @@ a:hover {
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
   .grid-container {
     grid-template-columns: repeat(1, 1fr);
   }
