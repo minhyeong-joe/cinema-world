@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ComponentFactory } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { FormBuilder } from '@angular/forms';
 import { TagsDialogComponent } from './tags-dialog.component';
 
 @Component({
@@ -8,11 +9,15 @@ import { TagsDialogComponent } from './tags-dialog.component';
   styleUrls: ['./posts.component.scss']
 })
 export class PostsComponent implements OnInit {
+  public searchForm = this.fb.group({
+    query: ''
+  });
 
-  allTags: string[];
-  selectedTags: string[];
+  public allTags: string[];
+  public selectedTags: string[];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog,
+              private fb: FormBuilder) { }
 
   ngOnInit(): void {
     // temporary all topic data
@@ -31,6 +36,11 @@ export class PostsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
     })
+  }
+
+  onClickSearch() {
+    const query = this.searchForm.get('query').value;
+    console.log(query);
   }
 
 }
