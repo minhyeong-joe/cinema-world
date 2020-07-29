@@ -1,0 +1,46 @@
+{
+  "APP_TITLE": "Cinema World",
+  "NAVIGATION": {
+    "ABOUT": "About",
+    "FILMS": "Films",
+    "POSTS": "Posts"
+  },
+  "FOOTER": {
+    "CONTENT": "Footer Contents",
+    "SUB_CONTENT": "Some more Footer Contents",
+    "COPYRIGHT": "Minhyeong Joe"
+  },
+  "ABOUT": [
+    {
+      "HEADING": "About One",
+      "URL": "",
+      "DESCRIPTION": "Short description"
+    },
+    {
+      "HEADING": "About Two",
+      "URL": "",
+      "DESCRIPTION": "Short description"
+    },
+    {
+      "HEADING": "About Three",
+      "URL": "",
+      "DESCRIPTION": "Short description"
+    },
+    {
+      "HEADING": "About Four",
+      "URL": "",
+      "DESCRIPTION": "Short description"
+    }
+  ],
+  "CONTACT": {
+    "PHONE": "(123) 456-7890",
+    "EMAIL": "company@email.com",
+    "ADDRESS": {
+      "STREET": "1234 Some Street",
+      "CITY": "Some City",
+      "STATE": "State",
+      "ZIP": "12345"
+    },
+    "GOOGLE_MAP": ""
+  }
+}

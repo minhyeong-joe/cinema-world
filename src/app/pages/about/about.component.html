@@ -4,29 +4,11 @@
     <mat-divider class="w-50 mx-auto mb-4"></mat-divider>
 
     <div class="row main-content-container justify-content-around no-gutters">
-      <div class="col-12 col-sm-9 col-lg-6 main-content">
-        <p class="mb-0 title">Title 1</p>
+      <div class="col-12 col-sm-9 col-lg-6 main-content" *ngFor="let about of abouts">
+        <p class="mb-0 title">{{about.HEADING}}</p>
         <div class="vertical-bar"></div>
         <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp">
-        <p class="text-muted lead description mt-2">Short description about us</p>
-      </div>
-      <div class="col-12 col-sm-9 col-lg-6 main-content">
-        <p class="mb-0 title">Title 2</p>
-        <div class="vertical-bar"></div>
-        <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp">
-        <p class="text-muted lead description mt-2">Short description about us.</p>
-      </div>
-      <div class="col-12 col-sm-9 col-lg-6 main-content">
-        <p class="mb-0 title">Title 3</p>
-        <div class="vertical-bar"></div>
-        <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp">
-        <p class="text-muted lead description mt-2">Short description about us</p>
-      </div>
-      <div class="col-12 col-sm-9 col-lg-6 main-content">
-        <p class="mb-0 title">Title 4</p>
-        <div class="vertical-bar"></div>
-        <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp">
-        <p class="text-muted lead description mt-2">Short description about us</p>
+        <p class="text-muted lead description mt-2">{{about.DESCRIPTION}}</p>
       </div>
     </div> <!-- end of row of about us contents-->
 
@@ -43,7 +25,7 @@
               <i class="fa fa-phone" aria-hidden="true"></i>
             </div>
             <div class="col-11 info-col">
-              (123) 456-7890
+              {{contact.PHONE}}
             </div>
           </div>
           <div class="row email-row">
@@ -51,7 +33,7 @@
               <i class="fa fa-at" aria-hidden="true"></i>
             </div>
             <div class="col-11 info-col">
-              company@email.com
+              {{contact.EMAIL}}
             </div>
           </div>
           <div class="row address-row">
@@ -59,8 +41,8 @@
               <i class="fa fa-map-marker" aria-hidden="true"></i>
             </div>
             <div class="col-11 info-col">
-              <p class="mb-2">1234 Some Street</p>
-              <p class="mb-1">Some City, State 12345</p>
+              <p class="mb-2">{{contact.ADDRESS.STREET}}</p>
+              <p class="mb-1">{{contact.ADDRESS.CITY}}, {{contact.ADDRESS.STATE}} {{contact.ADDRESS.ZIP}}</p>
             </div>
           </div>
         </div>
