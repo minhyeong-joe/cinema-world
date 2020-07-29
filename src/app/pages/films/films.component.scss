@@ -2,31 +2,20 @@
 
 // search bar input and button
 .search-bar-container {
-  margin-top: 50px;
-
-  mat-select {
-    width: 120px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 3px 4px 3px 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+  .mat-form-field {
+    margin-right: 0.5rem;
   }
-  input {
-    border: none;
-    width: 240px;
-    margin: 0 8px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    padding: 4px 10px;
-    font-family: $lato;
-    &:focus {
-      border-bottom-color: rgba(0, 0, 0, 0.6);
-    }
-    &.invalid {
-      border-bottom-color: firebrick;
-    }
+  ::ng-deep .mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
+    opacity: 0;
+    background-color: inherit;
   }
-  button {
-    background-color: forestgreen;
-    padding: 0;
-    width: 120px;
+  ::ng-deep .mat-form-field-invalid .mat-input-element {
+    caret-color: inherit;
   }
 }
 

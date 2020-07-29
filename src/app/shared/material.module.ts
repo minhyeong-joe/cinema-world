@@ -8,29 +8,24 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatPaginatorModule } from "@angular/material/paginator";
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+
+const MaterialModules = [
+  MatButtonModule,
+  MatDividerModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatInputModule,
+  MatTabsModule,
+  MatPaginatorModule,
+  MatDialogModule,
+  MatChipsModule
+]
 
 @NgModule({
   declarations: [],
-  imports: [
-    MatButtonModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatTabsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-  ],
-  exports: [
-    MatButtonModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatTabsModule,
-    MatPaginatorModule,
-    MatDialogModule,
-  ],
+  imports: MaterialModules,
+  exports: MaterialModules
 })
 export class MaterialModule {}

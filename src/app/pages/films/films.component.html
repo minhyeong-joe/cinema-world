@@ -1,9 +1,14 @@
-<form [formGroup]="searchForm" (submit)="onSearch()" class="search-bar-container container-fluid d-flex flex-row justify-content-center align-items-center">
-  <mat-select formControlName="searchBy">
-    <mat-option value="title">Title</mat-option>
-    <mat-option value="director">Director</mat-option>
-  </mat-select>
-  <input matInput formControlName="query"/>
+<form [formGroup]="searchForm" (submit)="onSearch()" class="search-bar-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Search By</mat-label>
+    <mat-select formControlName="searchBy">
+      <mat-option value="title">Title</mat-option>
+      <mat-option value="director">Director</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <input matInput formControlName="query"/>
+  </mat-form-field>
   <button mat-raised-button color="primary" [disabled]="!searchForm.valid">Search</button>
 </form>
 
