@@ -22,7 +22,10 @@
       </mat-tab-group>
     </div>
   </div>
-  <button class="btn btn-link mx-auto my-3 d-block" *ngIf="!isByYear" (click)="onSearchByYearClick()">Search By Year</button>
+  <button mat-stroked-button class="mx-auto my-3 d-block"
+          *ngIf="!isByYear" (click)="onSearchByYearClick()">
+    Search By Year
+  </button>
 
 
   <div class="alert alert-warning mx-5 h4" *ngIf="films?.length == 0">

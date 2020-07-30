@@ -6,7 +6,7 @@ import { PageEvent } from '@angular/material/paginator';
 
 import { FilmService } from 'src/app/core/services/film.service';
 import { Film } from 'src/app/core/models/film';
-import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 const FROM_YEAR: number = 2000;
@@ -18,10 +18,9 @@ const PAGE_SIZE: number = 4;
   styleUrls: ['./films.component.scss']
 })
 export class FilmsComponent implements OnInit, OnDestroy {
-  public selectedYear: number;
   public selectedTabIndex: number;
-  public years: number[];
-  public pageEvent: PageEvent;
+  public years: number[] = [];
+  public pageEvent: PageEvent = new PageEvent();
   public films: Film[];
   public isByYear: boolean;
   public searchForm = this.fb.group({
@@ -36,15 +35,13 @@ export class FilmsComponent implements OnInit, OnDestroy {
 
   constructor(private filmService: FilmService,
               private fb: FormBuilder,
-              private session: LocalStorageService,
+              private session: SessionStorageService,
               private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.pageEvent = new PageEvent();
     // initialize year list from current year -> 2000 (const FROM_YEAR)
     const currentYear = new Date().getFullYear();
-    this.years = [];
     for (let y = currentYear; y >= FROM_YEAR; y--) {
       this.years.push(y);
     }
@@ -60,58 +57,36 @@ export class FilmsComponent implements OnInit, OnDestroy {
       } else {
         this.queryParams = param;
       }
-      console.log(this.queryParams);
+      // get current page
+      this.pageEvent.pageIndex = this.queryParams['page']-1;
       // use query params to render list
       if (this.queryParams['year'] != null) {
         this.isByYear = true;
-        this.selectedYear = parseInt(this.queryParams['year']);
-        this.selectedTabIndex = this.years.indexOf(this.selectedYear);
+        this.selectedTabIndex = this.years.indexOf(parseInt(this.queryParams['year']));
       } else if (this.queryParams['title'] != null) {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('title');
         this.searchForm.get('query').setValue(this.queryParams['title']);
-        this.selectedYear = currentYear;
-        this.selectedTabIndex = 0;
       } else {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('director');
         this.searchForm.get('query').setValue(this.queryParams['director']);
-        this.selectedYear = currentYear;
-        this.selectedTabIndex = 0;
       }
-      this.pageEvent.pageIndex = this.queryParams['page']-1;
-      console.log(this.pageEvent);
-
       // pagination initialize
       this.resetPagination();
-      // initialize first list with current year
+      // render list based on the query
       this.renderList();
-    })
-
-
-    // if coming from single page, use session, else use default (latest film first by year)
-    const session = this.session.getFilmsHistory();
-
+    });
   }
 
   onClickFilm() {
-    let query: number | string;
-    let by: string;
-    if (this.isByYear) {
-      query = this.selectedYear;
-      by = "year";
-    } else {
-      query = this.searchForm.get('query').value;
-      by = this.searchForm.get('searchBy').value;
-    }
-    this.session.storeFilmsHistory(this.queryParams);
+    this.session.saveFilmParams(this.queryParams);
   }
 
   onYearSelect(event: MatTabChangeEvent) {
-    this.selectedYear = parseInt(event.tab.textLabel);
     this.router.navigate(['/films'], {queryParams: {
       page: 1,
-      year: this.selectedYear
+      year: this.years[event.index]
     }});
   }
 
@@ -132,28 +107,27 @@ export class FilmsComponent implements OnInit, OnDestroy {
     });
     this.router.navigate(['/films'], {queryParams: {
       page: 1,
-      year: this.selectedYear
+      year: this.years[this.selectedTabIndex]
     }})
   }
 
   onPageChange(event:PageEvent) {
-    this.pageEvent = event;
-    console.log(this.pageEvent.pageIndex);
     this.router.navigate(['/films'], {queryParams: {
-      page: this.pageEvent.pageIndex+1,
+      page: event.pageIndex+1,
       year: this.queryParams['year'] || null,
       title: this.queryParams['title'] || null,
       director: this.queryParams['director'] || null
     }});
-    // this.renderList();
   }
 
   resetPagination() {
     if (this.isByYear) {
-      this.getCountSub = this.filmService.getCountByYear(this.selectedYear)
+      const year = this.years[this.selectedTabIndex];
+      console.log(year);
+
+      this.getCountSub = this.filmService.getCountByYear(year)
         .subscribe(res => {
           if (res.success) {
-            // this.pageEvent.pageIndex = 0;
             this.pageEvent.pageSize = PAGE_SIZE;
             this.pageEvent.length = res.count;
           }
@@ -166,7 +140,6 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getCountSub = this.filmService.getCountByTitle(query)
           .subscribe(res => {
             if (res.success) {
-              // this.pageEvent.pageIndex = 0;
               this.pageEvent.pageSize = PAGE_SIZE;
               this.pageEvent.length = res.count;
             }
@@ -176,7 +149,6 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getCountSub = this.filmService.getCountByDirector(query)
           .subscribe(res => {
             if (res.success) {
-              // this.pageEvent.pageIndex = 0;
               this.pageEvent.pageSize = PAGE_SIZE;
               this.pageEvent.length = res.count;
             }
@@ -188,7 +160,8 @@ export class FilmsComponent implements OnInit, OnDestroy {
 
   renderList() {
     if (this.isByYear) {
-      this.getFilmsSub = this.filmService.getFilmsByYear(this.selectedYear, PAGE_SIZE, this.pageEvent.pageIndex+1)
+      const year = this.years[this.selectedTabIndex];
+      this.getFilmsSub = this.filmService.getFilmsByYear(year, PAGE_SIZE, this.pageEvent.pageIndex+1)
       .subscribe(res => {
         if (res.success) {
           this.films = res.films;
