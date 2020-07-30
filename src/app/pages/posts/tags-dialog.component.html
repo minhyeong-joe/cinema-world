@@ -2,22 +2,22 @@
 <div mat-dialog-content class="mt-2" cdkDropListGroup>
   <div class="row no-gutters">
     <p class="col-3 h6"><b>Applied Tags:</b></p>
-    <mat-chip-list class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="data.selectedTags" (cdkDropListDropped)="drop($event)">
-      <mat-chip class="chip" *ngFor="let tag of data.selectedTags" cdkDrag>
-        {{tag}}
+    <mat-chip-list class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="tempSelected" (cdkDropListDropped)="drop($event)">
+      <mat-chip class="chip" *ngFor="let tag of tempSelected" cdkDrag>
+        {{tag.name}}
       </mat-chip>
     </mat-chip-list>
   </div>
   <div class="row no-gutters mt-2">
     <p class="col-3 h6"><b>Available Tags:</b></p>
-    <mat-chip-list class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="data.allTags" (cdkDropListDropped)="drop($event)">
-      <mat-chip class="chip" *ngFor="let tag of data.allTags" cdkDrag>
-        {{tag}}
+    <mat-chip-list class="tag-list col-9" cdkDropList cdkDropListOrientation="horizontal" [cdkDropListData]="tempAll" (cdkDropListDropped)="drop($event)">
+      <mat-chip class="chip" *ngFor="let tag of tempAll" cdkDrag>
+        {{tag.name}}
       </mat-chip>
     </mat-chip-list>
   </div>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="onClose()">Close</button>
-  <button mat-raised-button class="btn-browse" [mat-dialog-close]="data">Browse</button>
+  <button mat-raised-button class="btn-browse" (click)="onConfirm()">Browse</button>
 </div>

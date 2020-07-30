@@ -16,7 +16,7 @@
         <a class="nav-link" routerLink="/films">{{navigation.FILMS}}</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/posts">{{navigation.POSTS}}</a>
+        <a class="nav-link" routerLink="/posts" [queryParams]="{p: 1}">{{navigation.POSTS}}</a>
       </li>
     </ul>
     <div class="sns-container">

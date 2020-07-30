@@ -2,48 +2,55 @@
   <div class="row justify-content-center no-gutters">
     <div class="main-container col-12 col-md-10 col-lg-8">
 
-      <div class="filter-row row justify-content-center justify-content-md-between align-items-center no-gutters">
-        <div class="col-12 col-md-6 order-1 order-md-0 text-center text-md-left mt-2 mt-md-0">
-          <button mat-button color="primary" class="btn-topic active">All topics</button>
-          <button mat-button color="primary" class="btn-topic" (click)="openDialog()">By Topics</button>
+      <div class="filter-row">
+        <div class="row justify-content-center justify-content-md-between align-items-center no-gutters">
+
+          <div class="col-12 col-md-6 order-1 order-md-0 text-center text-md-left mt-2 mt-md-0">
+            <button mat-button color="primary" class="btn-topic" [ngClass]="{'active': selectedTags?.length <= 0 && !activeQuery}" (click)="onClickAllTopics()">All topics</button>
+            <button mat-button color="primary" class="btn-topic" (click)="openDialog()" [ngClass]="{'active': selectedTags?.length > 0 && !activeQuery}">By Topics</button>
+          </div>
+          <div class="col-12 col-md-6 order-0 order-md-1 text-center text-md-right">
+            <form action="#" class="search-form-field" [formGroup]="searchForm" (submit)="onClickSearch()">
+              <input type="text" formControlName="query">
+              <button class="suffix btn" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="col-12 col-md-6 order-0 order-md-1 text-center text-md-right">
-          <form action="#" class="search-form-field" [formGroup]="searchForm" (submit)="onClickSearch()">
-            <input type="text" formControlName="query">
-            <div class="suffix" type="submit">
-              <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-          </form>
+
+        <div *ngIf="selectedTags?.length > 0" class="tag-row ml-3">
+          <span *ngFor="let tag of selectedTags" class="tag">{{tag.name}}</span>
         </div>
       </div> <!-- end of filter row -->
 
-      <div class="post-row row no-gutters justify-content-center">
+
+      <div *ngFor="let post of posts"
+            class="post-row row no-gutters justify-content-center">
         <div class="thumbnail-col col-md-6 d-none d-md-block">
-          <img src="../../../assets/img/poster.jpg" alt="post thumbnail">
+          <img src="{{post.cover_url || '../../../assets/img/poster.jpg'}}" alt="post thumbnail">
         </div>
         <div class="col-12 col-md-5">
           <div class="post-info">
 
             <div class="author-row">
-              <img src="../../../assets/img/author.jpg" alt="" class="author-img">
+              <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author._id + '.jpg'}}" alt="" class="author-img">
               <div class="name-date">
-                <p class="name">By <span>Admin User</span></p>
-                <p class="date">2020-07-03</p>
+                <p class="name">By <span>{{post.author.username}}</span></p>
+                <p class="date">{{post.post_date | date:'yyyy-MM-dd'}}</p>
               </div>
             </div> <!-- end of author-row -->
 
             <div class="tag-row">
-              <span class="tag">Topic One</span>
-              <span class="tag">Topic Two</span>
-              <span class="tag">Topic Three</span>
+              <span class="tag" *ngFor="let topic of post.tags">{{topic.name}}</span>
             </div>
 
-            <p class="h2 post-title">Post Title: Title will go here</p>
-            <p class="content-preview">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi explicabo quis
-              quod facere temporibus, dicta vitae sequi optio error, hic nesciunt facilis labore quas repellat non
-              dolore ducimus voluptas quaerat...</p>
+            <p class="h2 post-title">{{post.title}}</p>
+            <p class="content-preview">
+              {{ post.sections[0].content[0].length > 200 ? (post.sections[0].content[0] | slice:0:200) + '...' : post.sections[0].content[0] }}
+            </p>
 
-            <button class="btn continue-btn" [routerLink]="['/post', 'someId']">
+            <button class="btn continue-btn" [routerLink]="['/post', post._id]">
               <p>Continue Reading <i class="fa fa-long-arrow-right ml-2" aria-hidden="true"></i></p>
             </button>
 
@@ -51,100 +58,20 @@
         </div>
       </div> <!-- end of post-row -->
 
-      <div class="post-row row no-gutters justify-content-center">
-        <div class="thumbnail-col col-md-6 d-none d-md-block">
-          <img src="../../../assets/img/poster.jpg" alt="post thumbnail">
-        </div>
-        <div class="col-12 col-md-5">
-          <div class="post-info">
-
-            <div class="author-row">
-              <img src="../../../assets/img/author.jpg" alt="" class="author-img">
-              <div class="name-date">
-                <p class="name">By <span>Admin User</span></p>
-                <p class="date">2020-07-03</p>
-              </div>
-            </div> <!-- end of author-row -->
-
-            <div class="tag-row">
-              <span class="tag">Topic One</span>
-              <span class="tag">Topic Two</span>
-              <span class="tag">Topic Three</span>
-            </div>
-
-            <p class="h2 post-title">Post Title: Title will go here</p>
-            <p class="content-preview">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi explicabo quis
-              quod facere temporibus, dicta vitae sequi optio error, hic nesciunt facilis labore quas repellat non
-              dolore ducimus voluptas quaerat...</p>
-
-            <button class="btn continue-btn">
-              <p class="my-0">Continue Reading <i class="fa fa-long-arrow-right ml-2" aria-hidden="true"></i></p>
-            </button>
-
-          </div> <!-- end of post-info -->
-        </div>
-      </div> <!-- end of post-row -->
-
-      <div class="post-row row no-gutters justify-content-center">
-        <div class="thumbnail-col col-md-6 d-none d-md-block">
-          <img src="../../../assets/img/poster.jpg" alt="post thumbnail">
-        </div>
-        <div class="col-12 col-md-5">
-          <div class="post-info">
-
-            <div class="author-row">
-              <img src="../../../assets/img/author.jpg" alt="" class="author-img">
-              <div class="name-date">
-                <p class="name">By <span>Admin User</span></p>
-                <p class="date">2020-07-03</p>
-              </div>
-            </div> <!-- end of author-row -->
-
-            <div class="tag-row">
-              <span class="tag">Topic One</span>
-              <span class="tag">Topic Two</span>
-              <span class="tag">Topic Three</span>
-            </div>
-
-            <p class="h2 post-title">Post Title: Title will go here</p>
-            <p class="content-preview">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eligendi explicabo quis
-              quod facere temporibus, dicta vitae sequi optio error, hic nesciunt facilis labore quas repellat non
-              dolore ducimus voluptas quaerat...</p>
-
-            <button class="btn continue-btn">
-              <p class="my-0">Continue Reading <i class="fa fa-long-arrow-right ml-2" aria-hidden="true"></i></p>
-            </button>
-
-          </div> <!-- end of post-info -->
-        </div>
-      </div> <!-- end of post-row -->
-
       <div class="pagination-container my-3">
-        <a href="" class="prev10 disabled">Prev 10</a>
+        <a routerLink="/posts" [queryParams]="generateQueryParams((nthPageGroup-1) * MAX_PAGINATION)" [ngClass]="{'disabled': nthPageGroup <= 1}" class="prev10">Prev 10</a>
         <div class="pages">
-          <a href="" class="prev disabled"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
-          <a href="" class="page-href current">1</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">2</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">3</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">4</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">5</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">6</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">7</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">8</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">9</a>
-          <span class="divider">|</span>
-          <a href="" class="page-href">10</a>
-          <a href="" class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+          <a routerLink="/posts" [queryParams]="generateQueryParams(currentPage-1)" [ngClass]="{'disabled': currentPage <= 1}" class="prev">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </a>
+          <a *ngFor="let p of currentPageGroup" routerLink="/posts" [queryParams]="generateQueryParams(p)" class="page-href" [ngClass]="{'active': p == currentPage}">
+            {{p}}
+          </a>
+          <a routerLink="/posts" [queryParams]="generateQueryParams(currentPage+1)" [ngClass]="{'disabled': currentPage >= totalPage}" class="next">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </a>
         </div>
-        <a href="" class="next10">Next 10</a>
+        <a routerLink="/posts" [queryParams]="generateQueryParams(nthPageGroup * MAX_PAGINATION + 1)" [ngClass]="{'disabled': nthPageGroup * MAX_PAGINATION >= totalPage}"  class="next10">Next 10</a>
       </div>
 
     </div> <!-- end of main-container-->

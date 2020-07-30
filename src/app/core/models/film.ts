@@ -1,12 +1,12 @@
 export interface Film {
-  _id: String;
-  title: String;
-  director: String[];
-  release_date: Date;
-  poster_url: String;
-  rating: Number;
-  youtube_trailer_id: String;
-  gallery_url: String[];
-  synopsis: String;
-  casts: String[];
+  _id: string;
+  title: string;
+  director: string[];
+  release_date?: Date;
+  poster_url?: string;
+  rating?: number;
+  youtube_trailer_id?: string;
+  gallery_url?: string[];
+  synopsis: string;
+  casts: string[];
 }
