@@ -52,7 +52,7 @@
             </div> <!-- end of film poster & info-->
 
             <div class="trailer-container mt-5">
-                <iframe [src]="youtube_url | safeUrl" frameborder="0"
+                <iframe [src]="'https://www.youtube-nocookie.com/embed/' + film?.youtube_trailer_id | safeUrl" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>

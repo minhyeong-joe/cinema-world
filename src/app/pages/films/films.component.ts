@@ -123,7 +123,6 @@ export class FilmsComponent implements OnInit, OnDestroy {
   resetPagination() {
     if (this.isByYear) {
       const year = this.years[this.selectedTabIndex];
-      console.log(year);
 
       this.getCountSub = this.filmService.getCountByYear(year)
         .subscribe(res => {
