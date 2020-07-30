@@ -40,8 +40,8 @@
 
   .suffix {
     position: absolute;
-    top: 2px;
-    bottom: 2px;
+    top: 1px;
+    bottom: 1px;
     right: 0;
     width: 2.75rem;
     display: flex;
@@ -50,6 +50,7 @@
     cursor: pointer;
     border-left: 0.1rem solid rgba(0,0,0,0.23);
     transition: all 0.15s ease-in;
+    border-radius: 0;
     border-top-right-radius: 0.8rem;
     border-bottom-right-radius: 0.8rem;
     i {

@@ -7,7 +7,7 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { TagService } from 'src/app/core/services/tag.service';
 import { Post } from 'src/app/core/models/post';
 import { Tag } from 'src/app/core/models/tag';
-import { LocalStorageService } from 'src/app/core/services/local-storage.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 // posts per page
 const PAGE_SIZE = 5;
@@ -25,20 +25,20 @@ export class PostsComponent implements OnInit {
   public posts: Post[];
 
   // tag/topic filter logic
-  public allTags: Tag[];
-  public selectedTags: Tag[];
+  public allTags: Tag[] = [];
+  public selectedTags: Tag[] = [];
 
   // pagination logic
   public currentPage: number;
   public totalPage: number;
-  public currentPageGroup: number[];
+  public currentPageGroup: number[] = [];
   public nthPageGroup: number;
 
   // search form logic
   public searchForm: FormGroup = this.fb.group({
     query: ''
   });
-  public activeQuery: string;
+  public activeQuery: string = '';
 
   constructor(private dialog: MatDialog,
               private fb: FormBuilder,
@@ -46,15 +46,15 @@ export class PostsComponent implements OnInit {
               private tagService: TagService,
               private route: ActivatedRoute,
               private router: Router,
-              private session: LocalStorageService) { }
+              private session: SessionStorageService) { }
 
   ngOnInit(): void {
-    this.session.clearPostsHistory();
+    this.session.clearPostParams();
     this.selectedTags = [];
     // pagination and query parsing
     this.route.queryParams.subscribe(param => {
-      this.currentPage = parseInt(param['p']);
-      const tags:string[] = [].concat(param['tag'] || []);
+      this.currentPage = parseInt(param['page']);
+      const tags:string[] = [].concat(param['tags'] || []);
       const query: string = param['query'];
 
       // generate tags
@@ -175,7 +175,7 @@ export class PostsComponent implements OnInit {
 
   saveSession() {
     this.route.queryParams.subscribe(param => {
-      this.session.storePostsHistory(param);
+      this.session.savePostParams(param);
     });
   }
 
@@ -193,15 +193,10 @@ export class PostsComponent implements OnInit {
 
   generateQueryParams(page: number): Params {
     let queryParams: Params = {
-      p: page
+      page: page,
+      tags: this.selectedTags.length > 0? this.selectedTags.map(tag => tag._id): null,
+      query: this.activeQuery !== ''? this.activeQuery: null
     };
-    if (this.selectedTags && this.selectedTags.length > 0) {
-      queryParams['tag'] = this.selectedTags.map(tag => tag._id);
-    }
-    if (this.activeQuery !== '') {
-      queryParams['query'] = this.activeQuery;
-    }
-
     return queryParams;
   }
 

@@ -10,7 +10,7 @@ import { SessionStorageService } from 'src/app/core/services/session-storage.ser
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 const FROM_YEAR: number = 2000;
-const PAGE_SIZE: number = 4;
+const PAGE_SIZE: number = 20;
 
 @Component({
   selector: 'app-films',

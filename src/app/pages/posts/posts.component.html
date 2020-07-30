@@ -58,6 +58,7 @@
         </div>
       </div> <!-- end of post-row -->
 
+      <!-- paginator -->
       <div class="pagination-container my-3">
         <a routerLink="/posts" [queryParams]="generateQueryParams((nthPageGroup-1) * MAX_PAGINATION)" [ngClass]="{'disabled': nthPageGroup <= 1}" class="prev10">Prev 10</a>
         <div class="pages">
