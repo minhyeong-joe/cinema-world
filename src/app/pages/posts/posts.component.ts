@@ -7,6 +7,7 @@ import { Params, ActivatedRoute, Router } from '@angular/router';
 import { TagService } from 'src/app/core/services/tag.service';
 import { Post } from 'src/app/core/models/post';
 import { Tag } from 'src/app/core/models/tag';
+import { LocalStorageService } from 'src/app/core/services/local-storage.service';
 
 // posts per page
 const PAGE_SIZE = 5;
@@ -44,30 +45,45 @@ export class PostsComponent implements OnInit {
               private postService: PostService,
               private tagService: TagService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private session: LocalStorageService) { }
 
   ngOnInit(): void {
+    this.session.clearPostsHistory();
     this.selectedTags = [];
     // pagination and query parsing
     this.route.queryParams.subscribe(param => {
       this.currentPage = parseInt(param['p']);
       const tags:string[] = [].concat(param['tag'] || []);
       const query: string = param['query'];
-      console.log(tags);
-      console.log(query);
 
       // generate tags
       this.tagService.getAllTags()
-      .subscribe(res => {
-        if (res.success) {
-          if (tags) {
-            this.allTags = res.tags.filter(tag => tags.indexOf(tag._id) === -1);
-            this.selectedTags = res.tags.filter(tag => tags.indexOf(tag._id) >= 0);
-          } else {
-            this.allTags = res.tags;
+        .subscribe(res => {
+          if (res.success) {
+
+            if (tags) {
+              this.allTags = res.tags.filter(tag => tags.indexOf(tag._id) === -1)
+                                     .sort((tag1: Tag, tag2: Tag) => {
+                                        if (tag1.name < tag2.name)
+                                          return -1;
+                                        if (tag1.name > tag2.name)
+                                          return 1;
+                                        return 0;
+                                      });
+              this.selectedTags = res.tags.filter(tag => tags.indexOf(tag._id) >= 0)
+                                          .sort((tag1: Tag, tag2: Tag) => {
+                                            if (tag1.name < tag2.name)
+                                              return -1;
+                                            if (tag1.name > tag2.name)
+                                              return 1;
+                                            return 0;
+                                          });
+            } else {
+              this.allTags = res.tags;
+            }
           }
-        }
-      });
+        });
 
       // list based on query
       // search by topics
@@ -155,6 +171,12 @@ export class PostsComponent implements OnInit {
     this.selectedTags = [];
     this.activeQuery = this.searchForm.get('query').value;
     this.router.navigate(['/posts'], { queryParams: this.generateQueryParams(1)});
+  }
+
+  saveSession() {
+    this.route.queryParams.subscribe(param => {
+      this.session.storePostsHistory(param);
+    });
   }
 
   generatePagination(page: number):void {

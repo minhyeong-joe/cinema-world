@@ -50,7 +50,7 @@
               {{ post.sections[0].content[0].length > 200 ? (post.sections[0].content[0] | slice:0:200) + '...' : post.sections[0].content[0] }}
             </p>
 
-            <button class="btn continue-btn" [routerLink]="['/post', post._id]">
+            <button class="btn continue-btn" [routerLink]="['/post', post._id]" (click)="saveSession()">
               <p>Continue Reading <i class="fa fa-long-arrow-right ml-2" aria-hidden="true"></i></p>
             </button>
 

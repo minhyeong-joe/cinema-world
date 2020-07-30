@@ -63,4 +63,10 @@ export class PostService {
   getCountByTitle(query: string):Observable<any> {
     return this.http.get<any>(`${this.API_ENDPOINT}/title-count/${query}`);
   }
+
+  // get a post by id
+  // GET api/posts/:id
+  getById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.API_ENDPOINT}/${id}`);
+  }
 }

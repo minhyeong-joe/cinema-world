@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FilmService } from 'src/app/core/services/film.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Film } from 'src/app/core/models/film';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
@@ -20,11 +20,15 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   public prevId: string;
   public nextId: string;
 
+  public queryParams: Params;
+
   constructor(private filmService: FilmService,
               private route: ActivatedRoute,
               private session: LocalStorageService) { }
 
   ngOnInit(): void {
+    this.queryParams = this.session.getFilmsHistory();
+    console.log(this.queryParams);
     // get ID from path
     this.getIdSub = this.route.params.subscribe(params => {
       const id = params['id'];
@@ -72,6 +76,7 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.getIdSub.unsubscribe();
     this.getFilmSub.unsubscribe();
+    this.session.clearFilmsHistory();
   }
 
 }

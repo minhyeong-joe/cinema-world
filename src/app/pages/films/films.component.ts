@@ -7,10 +7,10 @@ import { PageEvent } from '@angular/material/paginator';
 import { FilmService } from 'src/app/core/services/film.service';
 import { Film } from 'src/app/core/models/film';
 import { LocalStorageService } from 'src/app/core/services/local-storage.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 const FROM_YEAR: number = 2000;
-const PAGE_SIZE: number = 20;
+const PAGE_SIZE: number = 4;
 
 @Component({
   selector: 'app-films',
@@ -26,15 +26,19 @@ export class FilmsComponent implements OnInit, OnDestroy {
   public isByYear: boolean;
   public searchForm = this.fb.group({
     searchBy: ['title', Validators.pattern(/title|director/)],
-    query: ['', [Validators.required, Validators.minLength(3)]]
+    query: ['', [Validators.required]]
   });
 
   private getFilmsSub: Subscription;
   private getCountSub: Subscription;
 
+  public queryParams: Params;
+
   constructor(private filmService: FilmService,
               private fb: FormBuilder,
-              private session: LocalStorageService) { }
+              private session: LocalStorageService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.pageEvent = new PageEvent();
@@ -44,38 +48,50 @@ export class FilmsComponent implements OnInit, OnDestroy {
     for (let y = currentYear; y >= FROM_YEAR; y--) {
       this.years.push(y);
     }
-    // if coming from single page, use session, else use default (latest film first by year)
-    const session = this.session.getFilmsHistory();
-    if (session) {
-      if (session['year'] != null) {
+
+    // render list based on query params
+    this.route.queryParams.subscribe(param => {
+      if (Object.keys(param).length == 0) {
+        // default page without params -> page 1 of latest
+        this.queryParams = {
+          page: 1,
+          year: currentYear
+        };
+      } else {
+        this.queryParams = param;
+      }
+      console.log(this.queryParams);
+      // use query params to render list
+      if (this.queryParams['year'] != null) {
         this.isByYear = true;
-        this.selectedYear = session['year'];
-        this.selectedTabIndex = this.years.indexOf(session['year']);
-      } else if (session['title'] != null) {
+        this.selectedYear = parseInt(this.queryParams['year']);
+        this.selectedTabIndex = this.years.indexOf(this.selectedYear);
+      } else if (this.queryParams['title'] != null) {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('title');
-        this.searchForm.get('query').setValue(session['title']);
+        this.searchForm.get('query').setValue(this.queryParams['title']);
         this.selectedYear = currentYear;
         this.selectedTabIndex = 0;
       } else {
         this.isByYear = false;
         this.searchForm.get('searchBy').setValue('director');
-        this.searchForm.get('query').setValue(session['director']);
+        this.searchForm.get('query').setValue(this.queryParams['director']);
         this.selectedYear = currentYear;
         this.selectedTabIndex = 0;
       }
-      this.pageEvent.pageIndex = session['page']-1;
-      this.session.clearFilmsHistory();
-    }
-    else {
-      this.isByYear = true;
-      this.selectedYear = currentYear;
-      this.selectedTabIndex = 0;
-    }
-    // pagination initialize
-    this.resetPagination();
-    // initialize first list with current year
-    this.renderList();
+      this.pageEvent.pageIndex = this.queryParams['page']-1;
+      console.log(this.pageEvent);
+
+      // pagination initialize
+      this.resetPagination();
+      // initialize first list with current year
+      this.renderList();
+    })
+
+
+    // if coming from single page, use session, else use default (latest film first by year)
+    const session = this.session.getFilmsHistory();
+
   }
 
   onClickFilm() {
@@ -88,20 +104,24 @@ export class FilmsComponent implements OnInit, OnDestroy {
       query = this.searchForm.get('query').value;
       by = this.searchForm.get('searchBy').value;
     }
-    this.session.storeFilmsHistory(query, this.pageEvent.pageIndex+1, by);
+    this.session.storeFilmsHistory(this.queryParams);
   }
 
   onYearSelect(event: MatTabChangeEvent) {
     this.selectedYear = parseInt(event.tab.textLabel);
-    this.selectedTabIndex = event.index;
-    this.resetPagination();
-    this.renderList();
+    this.router.navigate(['/films'], {queryParams: {
+      page: 1,
+      year: this.selectedYear
+    }});
   }
 
   onSearch() {
     this.isByYear = false;
-    this.resetPagination();
-    this.renderList();
+    this.router.navigate(['/films'], {queryParams: {
+      page: 1,
+      title: this.searchForm.get('searchBy').value == "title"? this.searchForm.get('query').value : null,
+      director: this.searchForm.get('searchBy').value == "director"? this.searchForm.get('query').value : null
+    }})
   }
 
   onSearchByYearClick() {
@@ -110,14 +130,22 @@ export class FilmsComponent implements OnInit, OnDestroy {
       searchBy: 'title',
       query: ''
     });
-    this.selectedYear = this.years[this.selectedTabIndex];
-    this.resetPagination();
-    this.renderList();
+    this.router.navigate(['/films'], {queryParams: {
+      page: 1,
+      year: this.selectedYear
+    }})
   }
 
   onPageChange(event:PageEvent) {
     this.pageEvent = event;
-    this.renderList();
+    console.log(this.pageEvent.pageIndex);
+    this.router.navigate(['/films'], {queryParams: {
+      page: this.pageEvent.pageIndex+1,
+      year: this.queryParams['year'] || null,
+      title: this.queryParams['title'] || null,
+      director: this.queryParams['director'] || null
+    }});
+    // this.renderList();
   }
 
   resetPagination() {
@@ -125,7 +153,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
       this.getCountSub = this.filmService.getCountByYear(this.selectedYear)
         .subscribe(res => {
           if (res.success) {
-            this.pageEvent.pageIndex = 0;
+            // this.pageEvent.pageIndex = 0;
             this.pageEvent.pageSize = PAGE_SIZE;
             this.pageEvent.length = res.count;
           }
@@ -138,7 +166,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getCountSub = this.filmService.getCountByTitle(query)
           .subscribe(res => {
             if (res.success) {
-              this.pageEvent.pageIndex = 0;
+              // this.pageEvent.pageIndex = 0;
               this.pageEvent.pageSize = PAGE_SIZE;
               this.pageEvent.length = res.count;
             }
@@ -148,7 +176,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getCountSub = this.filmService.getCountByDirector(query)
           .subscribe(res => {
             if (res.success) {
-              this.pageEvent.pageIndex = 0;
+              // this.pageEvent.pageIndex = 0;
               this.pageEvent.pageSize = PAGE_SIZE;
               this.pageEvent.length = res.count;
             }
