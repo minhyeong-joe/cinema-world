@@ -10,9 +10,12 @@
               {{post.title}}
             </p>
 
-            <div class="img-wrapper cover-wrapper">
-                <img src="{{post.cover_url || '../../../assets/img/poster.jpg'}}" alt="cover image">
-            </div>
+            <mat-grid-list cols="1" rowHeight="2:1">
+              <mat-grid-tile colspan="1" rowspan="1">
+                <img-loader [src]="post.cover_url || '../../../assets/img/poster.jpg'" alt="cover image" loader="assets/spinner.gif">
+                </img-loader>
+              </mat-grid-tile>
+            </mat-grid-list>
 
             <div class="author-row">
                 <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author._id + '.jpg'}}" alt="" class="author-img">
@@ -24,9 +27,13 @@
             </div> <!-- end of author-row -->
 
             <section *ngFor="let section of post.sections">
-              <div *ngIf="section.cover_url" class="img-wrapper">
-                  <img src="{{section.cover_url}}" alt="supplementary image">
-              </div>
+              <mat-grid-list *ngIf="section.cover_url" cols="1" rowHeight="2:1">
+                <mat-grid-tile colspan="1" rowspan="1">
+                  <img-loader [src]="section.cover_url" alt="supplementary image" loader="assets/spinner.gif">
+                  </img-loader>
+                </mat-grid-tile>
+              </mat-grid-list>
+
               <p *ngIf="section.subheading" class="h2 mt-3 text-center">{{section.subheading}}</p>
               <div class="content">
                   <p *ngFor="let paragraph of section.content">{{paragraph}}</p>
