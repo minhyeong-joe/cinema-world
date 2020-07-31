@@ -10,9 +10,9 @@ import { Tag } from 'src/app/core/models/tag';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 // posts per page
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 1;
 // max number of pages in one pagination group
-const MAX_PAGINATION = 10;
+const MAX_PAGINATION = 1;
 
 @Component({
   selector: 'app-posts',
@@ -87,53 +87,31 @@ export class PostsComponent implements OnInit {
       // list based on query
       // search by topics
       if (tags.length > 0) {
-        this.postService.getCountByTags(tags)
-          .subscribe(res => {
-            if (res.success) {
-              const numPosts = res.count;
-              this.totalPage = Math.ceil(numPosts/PAGE_SIZE);
-              this.generatePagination(this.currentPage);
-            }
-          });
         this.postService.getByTags(tags, PAGE_SIZE, this.currentPage)
           .subscribe(res => {
             if (res.success) {
-              this.posts = res.posts;
+              this.posts = res.data.posts;
+              this.generatePagination(res.data.count);
             }
           });
       }
       // search by title query
       else if (query) {
-        this.postService.getCountByTitle(query)
-          .subscribe(res => {
-            if (res.success) {
-              const numPosts = res.count;
-              this.totalPage = Math.ceil(numPosts/PAGE_SIZE);
-              this.generatePagination(this.currentPage);
-              console.log("Count works");
-            }
-          });
         this.postService.getByTitle(query, PAGE_SIZE, this.currentPage)
           .subscribe(res => {
             if (res.success) {
-              this.posts = res.posts;
+              this.posts = res.data.posts;
+              this.generatePagination(res.data.count);
             }
           })
       }
       // no topic, nor search query (get posts only by pages)
       else {
-        this.postService.getCount()
-          .subscribe(res => {
-            if (res.success) {
-              const numPosts = res.count;
-              this.totalPage = Math.ceil(numPosts/PAGE_SIZE);
-              this.generatePagination(this.currentPage);
-            }
-          });
         this.postService.getAllPosts(PAGE_SIZE, this.currentPage)
           .subscribe(res => {
             if (res.success) {
-              this.posts = res.posts;
+              this.posts = res.data.posts;
+              this.generatePagination(res.data.count);
             }
           });
       }
@@ -178,8 +156,9 @@ export class PostsComponent implements OnInit {
     });
   }
 
-  generatePagination(page: number):void {
-    this.nthPageGroup = Math.ceil(page / MAX_PAGINATION);
+  generatePagination(numPosts: number):void {
+    this.totalPage = Math.ceil(numPosts/PAGE_SIZE);
+    this.nthPageGroup = Math.ceil(this.currentPage / MAX_PAGINATION);
     this.currentPageGroup = [];
     for (let i = MAX_PAGINATION * (this.nthPageGroup-1) + 1; i <= MAX_PAGINATION * this.nthPageGroup; i++) {
       if (i > this.totalPage) {

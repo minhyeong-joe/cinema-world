@@ -9,72 +9,100 @@ router.get('/', (req, res) => {
   let lim = parseInt(req.query.lim);
   let page = parseInt(req.query.page);
   let skipped = (page - 1) * lim;
-  Post.find()
-  .populate('tags')
-  .populate('author', 'username')
-  .sort({'post_date': 'desc'})
-  .skip(skipped)
-  .limit(lim)
-  .exec((err, posts) => {
+  Post.aggregate([
+    { $match: {}},
+    { $facet: {
+      "posts": [
+        { $sort: { "post_date": -1}},
+        { $skip: skipped },
+        { $limit: lim },
+        { $lookup: {from: 'tags', localField: 'tags', foreignField: '_id', as: 'tags'}},
+        { $lookup: {
+          from: 'admins',
+          let: { author: '$author'},
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$author']}}},
+            { $project: {
+              username: 1,
+            }}
+          ],
+          as: 'author'
+        }},
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true }},
+    { $project: {
+      count: "$total.count",
+      posts: "$posts"
+    }}
+  ])
+  .exec((err, data) => {
     if (err) {
-      res.status(500).json({success:false, message: "Unknown Error occurred"});
+      res.status(500).json({success: false, message: "Unknown Error occurred", error: err});
     } else {
-      res.status(200).json({success: true, posts: posts});
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
     }
   });
 });
 
-// @desc  get count of all posts
-// @route GET /api/posts/all-count
-router.get('/all-count', (req, res) => {
-  Post.find({})
-      .countDocuments()
-      .exec((err, count) => {
-        if (err) {
-          res.status(500).json({success: false, message: "Unknown Error occurred 1"});
-        } else {
-          res.status(200).json({success: true, count: count});
-        }
-      });
-});
 
 // @desc  get posts by tags
 // @route GET /api/posts/tag/?lim=:lim&page=:page&tag=:tagId&tag=:tagId
 router.get('/tag', (req, res) => {
-  let tag = req.query.tag;
+  let tag = Array.isArray(req.query.tag)? req.query.tag: [req.query.tag];
   let lim = parseInt(req.query.lim);
   let page = parseInt(req.query.page);
   let skipped = (page - 1) * lim;
-  Post.find({'tags': {$in: tag}})
-      .populate('tags')
-      .populate('author', 'username')
-      .sort({'post_date' : 'desc'})
-      .skip(skipped)
-      .limit(lim)
-      .exec((err, posts) => {
-        if (err) {
-          res.status(500).json({success:false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, posts: posts});
-        }
-      });
+  Post.aggregate([
+    { $match: {
+      'tags': { $in: tag.map(id => new mongoose.Types.ObjectId(id))}
+    }},
+    { $facet: {
+      "posts": [
+        { $sort: { "post_date": -1}},
+        { $skip: skipped },
+        { $limit: lim },
+        { $lookup: {from: 'tags', localField: 'tags', foreignField: '_id', as: 'tags'}},
+        { $lookup: {
+          from: 'admins',
+          let: { author: '$author'},
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$author']}}},
+            { $project: {
+              _id: 1,
+              username: 1,
+            }}
+          ],
+          as: 'author'
+        }}
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true} },
+    { $project: {
+      count: "$total.count",
+      posts: "$posts"
+    }}
+  ])
+  .exec((err, data) => {
+    if (err) {
+      res.status(500).json({success: false, message: "Unknown Error occurred", error: err});
+    } else {
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
+    }
+  });
 });
-
-// @desc  get count of all posts with given a given tag
-// @route GET /api/posts/tag-count/?tag=:tagId&tag=:tagId
-router.get('/tag-count', (req, res) => {
-  let tag = req.query.tag;
-  Post.find({'tags': {$in: tag}})
-      .countDocuments()
-      .exec((err, count) => {
-        if (err) {
-          res.status(500).json({success: false, message: "Unknown Error occurred 1"});
-        } else {
-          res.status(200).json({success: true, count: count});
-        }
-      });
-});
-
 
 
 // @desc  get posts by title
@@ -85,36 +113,49 @@ router.get('/title', (req, res) => {
   let page = parseInt(req.query.page);
   let skipped = (page - 1) * lim;
   let titleLike = new RegExp(`.*${title}.*`, "gi");
-  Post.find({title: {$regex: titleLike}})
-  .populate('tags')
-  .populate('author', 'username')
-  .sort({'post_date' : 'desc'})
-  .skip(skipped)
-  .limit(lim)
-  .exec((err, posts) => {
+  Post.aggregate([
+    { $match: {title: {$regex: titleLike}}},
+    { $facet: {
+      "posts": [
+        { $sort: { "post_date": -1}},
+        { $skip: skipped },
+        { $limit: lim },
+        { $lookup: {from: 'tags', localField: 'tags', foreignField: '_id', as: 'tags'}},
+        { $lookup: {
+          from: 'admins',
+          let: { author: '$author'},
+          pipeline: [
+            { $match: { $expr: { $eq: ['$_id', '$$author']}}},
+            { $project: {
+              _id: 1,
+              username: 1,
+            }}
+          ],
+          as: 'author'
+        }}
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true} },
+    { $project: {
+      count: "$total.count",
+      posts: "$posts"
+    }}
+  ])
+  .exec((err, data) => {
     if (err) {
-      res.status(500).json({success:false, message: "Unknown Error occurred"});
+      res.status(500).json({success: false, message: "Unknown Error occurred", error: err});
     } else {
-      res.status(200).json({success: true, posts: posts});
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
     }
   });
 });
 
-// @desc  get count of posts by title
-// @route GET /api/posts/title-count/:title
-router.get('/title-count/:title', (req, res) => {
-  let title = req.params.title;
-  let titleLike = new RegExp(`.*${title}.*`, "gi");
-  Post.find({'title': {$regex: titleLike}})
-  .countDocuments()
-  .exec((err, count) => {
-    if (err) {
-      res.status(500).json({success: false, message: "Unknown Error occurred 1"});
-    } else {
-      res.status(200).json({success: true, count: count});
-    }
-  });
-});
 
 // @desc  get a post by id
 // @route GET /api/posts/:id

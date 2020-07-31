@@ -34,9 +34,9 @@
           <div class="post-info">
 
             <div class="author-row">
-              <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author._id + '.jpg'}}" alt="" class="author-img">
+              <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author[0]._id + '.jpg'}}" alt="" class="author-img">
               <div class="name-date">
-                <p class="name">By <span>{{post.author.username}}</span></p>
+                <p class="name">By <span>{{post.author[0].username}}</span></p>
                 <p class="date">{{post.post_date | date:'yyyy-MM-dd'}}</p>
               </div>
             </div> <!-- end of author-row -->
