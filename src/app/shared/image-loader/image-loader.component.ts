@@ -9,12 +9,12 @@ export class ImageLoaderComponent implements OnInit {
   @Input('src') public src: string;
   @Input('alt') public alt: string = "Image not found";
   @Input('loader') public loaderSrc: string;
-  public isLoading: boolean;
+  @Input('fixedSize') public fixedSize: boolean = true;
+  public isLoading: boolean = true;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.isLoading = true;
   }
 
   onLoad(): void {

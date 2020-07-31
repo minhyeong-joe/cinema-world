@@ -67,6 +67,7 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
             showThumbByDefault: true,
             zoom: true,
             fullScreen: true,
+            selector: '.lightgallery-target'
             });
          },0)
         });

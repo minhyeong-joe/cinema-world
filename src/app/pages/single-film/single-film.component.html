@@ -15,7 +15,13 @@
             <p class="h2 movie-title mt-3 text-center text-md-left">{{film?.title}}</p>
             <div class="row film-detail-container justify-content-center">
                 <div class="col-8 col-md-6 film-poster-container mb-3 mb-md-0">
-                    <img src="{{film?.poster_url}}" class="img-fluid" alt="Poster">
+                  <img-loader
+                    [src]="film?.poster_url"
+                    loader="assets/spinner.gif"
+                    alt="poster image"
+                    [fixedSize]="false"
+                  >
+                  </img-loader>
                 </div>
                 <div class="col-12 col-md-6 film-info no-gutters">
                     <div class="row">
@@ -51,11 +57,13 @@
                 </div>
             </div> <!-- end of film poster & info-->
 
-            <div class="trailer-container mt-5">
+            <mat-grid-list class="mt-5" cols="1" rowHeight="16:9">
+              <mat-grid-tile colspan="1" rowspan="1">
                 <iframe [src]="'https://www.youtube-nocookie.com/embed/' + film?.youtube_trailer_id | safeUrl" frameborder="0"
-                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen></iframe>
-            </div>
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+              </mat-grid-tile>
+            </mat-grid-list>
 
         </div>
     </div>
@@ -63,12 +71,17 @@
 
 <div class="container-fluid" *ngIf="film?.gallery_url.length > 0">
     <div class="row no-gutters justify-content-center">
-        <div class="col-12 col-md-10 gallery">
-            <div class="row" id="lightgallery">
-                <a *ngFor="let url of film?.gallery_url; index as i" class="thumbnail col-12 col-md-6" href="{{url}}">
-                  <img src="{{url}}" alt="gallery{{i+1}}">
+        <div class="col-12 col-md-10 gallery my-3">
+          <mat-grid-list id="lightgallery" cols="2" rowHeight="4:3" gutterSize="10">
+            <mat-grid-tile colspan="1" rowspan="1" *ngFor="let url of film?.gallery_url; index as i">
+              <div class="h-100 w-100">
+                <a class="lightgallery-target" href={{url}}>
+                  <img-loader [src]="url" loader="assets/spinner.gif">
+                  </img-loader>
                 </a>
-            </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
         </div>
     </div>
 </div>

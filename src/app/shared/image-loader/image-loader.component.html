@@ -1,4 +1,4 @@
 <div class="image-loader">
-  <img [hidden]="isLoading" class="img-loaded img-fluid" [src]="src" [alt]="alt" (load)="onLoad()">
+  <img [hidden]="isLoading" class="img-loaded img-fluid" [ngClass]="{'img-fixed': fixedSize}" [src]="src" [alt]="alt" (load)="onLoad()">
   <img *ngIf="isLoading" class="img-loading" [src]="loaderSrc" alt="loading...">
 </div>
