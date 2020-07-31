@@ -33,11 +33,7 @@
   }
 }
 
-// to keep paginator at the bottom
 .paginator {
-  position: absolute;
-  width: 100%;
-  bottom: $footer-height;
   * {
     font-size: 1.2rem;
   }

@@ -1,0 +1,10 @@
+<div class="wrapper" [routerLink]="['/film', id]" (click)="onClick()">
+  <div class="image-loader">
+    <img [hidden]="isLoading" class="img-loaded img-fluid" [src]="src" [alt]="alt" (load)="onLoad()">
+    <img *ngIf="isLoading" class="img-loading" [src]="loaderSrc" alt="loading...">
+  </div>
+  <div *ngIf="!isLoading" class="movie-title-container">
+    <p class="h4 title">{{title}}</p>
+    <p class="lead text-muted director-year">{{director}} | {{year}}</p>
+  </div>
+</div>

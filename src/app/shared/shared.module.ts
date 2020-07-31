@@ -6,12 +6,16 @@ import { MaterialModule } from './material.module';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { ImageLoaderComponent } from './image-loader/image-loader.component';
+import { FilmThumbnailComponent } from './film-thumbnail/film-thumbnail.component';
 
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ImageLoaderComponent,
+    FilmThumbnailComponent
   ],
   imports: [
     CommonModule,
@@ -21,6 +25,8 @@ import { FooterComponent } from './footer/footer.component';
   exports: [
     NavbarComponent,
     FooterComponent,
+    ImageLoaderComponent,
+    FilmThumbnailComponent,
     MaterialModule
   ]
 })

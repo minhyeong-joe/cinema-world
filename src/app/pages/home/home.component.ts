@@ -10,7 +10,11 @@ import { Subscription } from 'rxjs';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private getFilmsSub: Subscription;
-  latestFilms: Film[];
+  public latestFilms: Film[];
+  public cols: number;
+  public dimLg: number;
+  public rowMd: number;
+  public dimSm: number;
 
   constructor(private filmService: FilmService) { }
 
@@ -22,6 +26,41 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.latestFilms = res.data.films;
         }
       });
+    if (window.innerWidth >= 992) {
+      this.cols = 4;
+      this.dimLg = 2;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    } else if (window.innerWidth >= 576) {
+      this.cols = 2;
+      this.dimLg = 1;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    } else {
+      this.cols = 1;
+      this.dimLg = 1;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    }
+  }
+
+  onResize(event) {
+    if (event.target.innerWidth >= 992) {
+      this.cols = 4;
+      this.dimLg = 2;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    } else if (event.target.innerWidth >= 576) {
+      this.cols = 2;
+      this.dimLg = 1;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    } else {
+      this.cols = 1;
+      this.dimLg = 1;
+      this.rowMd = 1;
+      this.dimSm = 1;
+    }
   }
 
   ngOnDestroy() {

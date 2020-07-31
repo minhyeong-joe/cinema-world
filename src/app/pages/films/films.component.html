@@ -32,15 +32,19 @@
     <i class="fa fa-meh-o" aria-hidden="true"></i> No film found.
   </div>
 
-  <div class="grid-container" *ngIf="films?.length > 0">
-    <div *ngFor="let film of films" class="grid grid-sm" [routerLink]="['/film', film._id]" (click)="onClickFilm()">
-      <img class="movie-thumbnail img-fluid" src="{{film.poster_url}}" />
-      <div class="movie-title-container">
-        <p class="h4 title">{{film.title}}</p>
-        <p class="lead text-muted director-year">{{film.director[0]}} | {{film.release_date | date:'yyyy'}}</p>
-      </div>
-    </div>
-  </div>
+  <mat-grid-list *ngIf="films?.length > 0" [cols]="cols" gutterSize="0" (window:resize)="onResize($event)">
+    <mat-grid-tile *ngFor="let film of films" [colspan]="1" [rowspan]="1">
+      <film-thumbnail
+        [id]="film._id"
+        [src]="film.poster_url"
+        loader="assets/spinner.gif"
+        [title]="film.title"
+        [director]="film.director[0]"
+        [year]="film.release_date | date:'yyyy'"
+        [queryParams]="queryParams"
+      ></film-thumbnail>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
 
 <div class="paginator">

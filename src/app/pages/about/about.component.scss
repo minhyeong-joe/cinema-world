@@ -33,9 +33,6 @@ $container-margin-bottom: $striped-height + 30px;
     margin-top: 8px;
     margin-bottom: 8px;
   }
-  img {
-    width: 100%;
-  }
   // adds zig-zag effect
   &:nth-child(even) {
     top: $striped-height;

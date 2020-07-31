@@ -33,6 +33,8 @@ export class FilmsComponent implements OnInit, OnDestroy {
 
   public queryParams: Params;
 
+  public cols: number;
+
   constructor(private filmService: FilmService,
               private fb: FormBuilder,
               private session: SessionStorageService,
@@ -40,6 +42,14 @@ export class FilmsComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit(): void {
+    // grid size
+    if (window.innerWidth >= 992) {
+      this.cols = 4;
+    } else if (window.innerWidth >= 576) {
+      this.cols = 2;
+    } else {
+      this.cols = 1;
+    }
     // initialize year list from current year -> 2000 (const FROM_YEAR)
     const currentYear = new Date().getFullYear();
     for (let y = currentYear; y >= FROM_YEAR; y--) {
@@ -122,43 +132,6 @@ export class FilmsComponent implements OnInit, OnDestroy {
     }});
   }
 
-  // resetPagination() {
-  //   if (this.isByYear) {
-  //     const year = this.years[this.selectedTabIndex];
-
-  //     this.getCountSub = this.filmService.getCountByYear(year)
-  //       .subscribe(res => {
-  //         if (res.success) {
-  //           this.pageEvent.pageSize = PAGE_SIZE;
-  //           this.pageEvent.length = res.count;
-  //         }
-  //       });
-  //   } else {
-  //     const searchBy:string = this.searchForm.get('searchBy').value;
-  //     const query:string = this.searchForm.get('query').value;
-  //     switch (searchBy) {
-  //       case "title":
-  //         this.getCountSub = this.filmService.getCountByTitle(query)
-  //         .subscribe(res => {
-  //           if (res.success) {
-  //             this.pageEvent.pageSize = PAGE_SIZE;
-  //             this.pageEvent.length = res.count;
-  //           }
-  //         })
-  //         break;
-  //       case "director":
-  //         this.getCountSub = this.filmService.getCountByDirector(query)
-  //         .subscribe(res => {
-  //           if (res.success) {
-  //             this.pageEvent.pageSize = PAGE_SIZE;
-  //             this.pageEvent.length = res.count;
-  //           }
-  //         })
-  //         break;
-  //     }
-  //   }
-  // }
-
   renderList() {
     if (this.isByYear) {
       const year = this.years[this.selectedTabIndex];
@@ -192,6 +165,16 @@ export class FilmsComponent implements OnInit, OnDestroy {
           })
           break;
       }
+    }
+  }
+
+  onResize(event) {
+    if (event.target.innerWidth >= 992) {
+      this.cols = 4;
+    } else if (event.target.innerWidth >= 576) {
+      this.cols = 2;
+    } else {
+      this.cols = 1;
     }
   }
 

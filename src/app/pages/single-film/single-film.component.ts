@@ -19,6 +19,7 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   public prevId: string;
   public nextId: string;
 
+  public backUrl: string = '/films';
   public queryParams: Params;
 
   constructor(private filmService: FilmService,
@@ -27,6 +28,9 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.queryParams = this.session.getFilmParams();
+    if (this.queryParams == null) {
+      this.backUrl = '/';
+    }
     // get ID from path
     this.getIdSub = this.route.params.subscribe(params => {
       const id = params['id'];

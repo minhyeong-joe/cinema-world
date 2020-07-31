@@ -7,7 +7,12 @@
       <div class="col-12 col-sm-9 col-lg-6 main-content" *ngFor="let about of abouts">
         <p class="mb-0 title">{{about.HEADING}}</p>
         <div class="vertical-bar"></div>
-        <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp">
+        <mat-grid-list cols="1" rowHeight="2:3">
+          <mat-grid-tile>
+            <!-- <img class="img-fluid" src="https://via.placeholder.com/300x400" alt="temp"> -->
+            <img-loader src="https://via.placeholder.com/3000x5000" loader="assets/spinner.gif"></img-loader>
+          </mat-grid-tile>
+        </mat-grid-list>
         <p class="text-muted lead description mt-2">{{about.DESCRIPTION}}</p>
       </div>
     </div> <!-- end of row of about us contents-->
