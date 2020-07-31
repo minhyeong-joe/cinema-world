@@ -34,6 +34,22 @@ a:hover {
 .lg-on {
   overflow: hidden;
 }
+// lazyloading img loader
+.ng-lazyloading {
+  height: 80px !important;
+  width: 80px !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.ng-lazyloaded {
+  animation: fadein .5s;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 
 // rectangle button, reverse color on hover
 .btn.btn-rectangle {

@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getFilmsSub = this.filmService.getFilmsByTitle("", 4, 1)
       .subscribe((res: any) => {
         if (res.success) {
-          this.latestFilms = res.films;
+          this.latestFilms = res.data.films;
         }
       });
   }

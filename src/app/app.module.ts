@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // External Modules
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 // Custom Modules
 import { AppRoutingModule } from './app-routing.module';
@@ -49,6 +50,7 @@ import { SafeUrlPipe } from './core/pipes/safe-url.pipe';
     DragDropModule,
     HttpClientModule,
     ReactiveFormsModule,
+    LazyLoadImageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

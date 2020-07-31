@@ -36,6 +36,7 @@
     "lg-zoom.js": "^1.2.0",
     "lightgallery.js": "^1.2.0",
     "mongoose": "^5.9.25",
+    "ng-lazyload-image": "^9.0.0",
     "rxjs": "^6.5.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.10.3"
