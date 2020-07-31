@@ -72,7 +72,7 @@
 <div class="container-fluid" *ngIf="film?.gallery_url.length > 0">
     <div class="row no-gutters justify-content-center">
         <div class="col-12 col-md-10 gallery my-3">
-          <mat-grid-list id="lightgallery" cols="2" rowHeight="4:3" gutterSize="10">
+          <mat-grid-list id="lightgallery" [cols]="galleryCols" rowHeight="4:3" gutterSize="10" (window:resize)="onResize($event)">
             <mat-grid-tile colspan="1" rowspan="1" *ngFor="let url of film?.gallery_url; index as i">
               <div class="h-100 w-100">
                 <a class="lightgallery-target" href={{url}}>

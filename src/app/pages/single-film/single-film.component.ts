@@ -22,6 +22,8 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   public backUrl: string = '/films';
   public queryParams: Params;
 
+  public galleryCols: number;
+
   constructor(private filmService: FilmService,
               private route: ActivatedRoute,
               private session: SessionStorageService) { }
@@ -73,6 +75,15 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
         });
 
       });
+
+      this.galleryCols = window.innerWidth >= 576? 2: 1;
+      console.log(this.galleryCols);
+
+  }
+
+  onResize(event) {
+    this.galleryCols = event.target.innerWidth >= 576? 2: 1;
+    console.log(this.galleryCols);
   }
 
   ngOnDestroy(): void {
