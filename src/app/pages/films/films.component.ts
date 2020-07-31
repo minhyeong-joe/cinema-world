@@ -18,7 +18,7 @@ const PAGE_SIZE: number = 20;
   styleUrls: ['./films.component.scss']
 })
 export class FilmsComponent implements OnInit, OnDestroy {
-  public selectedTabIndex: number;
+  public selectedTabIndex: number = 0;
   public years: number[] = [];
   public pageEvent: PageEvent = new PageEvent();
   public films: Film[];
@@ -29,7 +29,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
   });
 
   private getFilmsSub: Subscription;
-  private getCountSub: Subscription;
+  // private getCountSub: Subscription;
 
   public queryParams: Params;
 
@@ -57,6 +57,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
       } else {
         this.queryParams = param;
       }
+      this.pageEvent.pageSize = PAGE_SIZE;
       // get current page
       this.pageEvent.pageIndex = this.queryParams['page']-1;
       // use query params to render list
@@ -73,7 +74,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
         this.searchForm.get('query').setValue(this.queryParams['director']);
       }
       // pagination initialize
-      this.resetPagination();
+      // this.resetPagination();
       // render list based on the query
       this.renderList();
     });
@@ -105,6 +106,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
       searchBy: 'title',
       query: ''
     });
+
     this.router.navigate(['/films'], {queryParams: {
       page: 1,
       year: this.years[this.selectedTabIndex]
@@ -120,42 +122,42 @@ export class FilmsComponent implements OnInit, OnDestroy {
     }});
   }
 
-  resetPagination() {
-    if (this.isByYear) {
-      const year = this.years[this.selectedTabIndex];
+  // resetPagination() {
+  //   if (this.isByYear) {
+  //     const year = this.years[this.selectedTabIndex];
 
-      this.getCountSub = this.filmService.getCountByYear(year)
-        .subscribe(res => {
-          if (res.success) {
-            this.pageEvent.pageSize = PAGE_SIZE;
-            this.pageEvent.length = res.count;
-          }
-        });
-    } else {
-      const searchBy:string = this.searchForm.get('searchBy').value;
-      const query:string = this.searchForm.get('query').value;
-      switch (searchBy) {
-        case "title":
-          this.getCountSub = this.filmService.getCountByTitle(query)
-          .subscribe(res => {
-            if (res.success) {
-              this.pageEvent.pageSize = PAGE_SIZE;
-              this.pageEvent.length = res.count;
-            }
-          })
-          break;
-        case "director":
-          this.getCountSub = this.filmService.getCountByDirector(query)
-          .subscribe(res => {
-            if (res.success) {
-              this.pageEvent.pageSize = PAGE_SIZE;
-              this.pageEvent.length = res.count;
-            }
-          })
-          break;
-      }
-    }
-  }
+  //     this.getCountSub = this.filmService.getCountByYear(year)
+  //       .subscribe(res => {
+  //         if (res.success) {
+  //           this.pageEvent.pageSize = PAGE_SIZE;
+  //           this.pageEvent.length = res.count;
+  //         }
+  //       });
+  //   } else {
+  //     const searchBy:string = this.searchForm.get('searchBy').value;
+  //     const query:string = this.searchForm.get('query').value;
+  //     switch (searchBy) {
+  //       case "title":
+  //         this.getCountSub = this.filmService.getCountByTitle(query)
+  //         .subscribe(res => {
+  //           if (res.success) {
+  //             this.pageEvent.pageSize = PAGE_SIZE;
+  //             this.pageEvent.length = res.count;
+  //           }
+  //         })
+  //         break;
+  //       case "director":
+  //         this.getCountSub = this.filmService.getCountByDirector(query)
+  //         .subscribe(res => {
+  //           if (res.success) {
+  //             this.pageEvent.pageSize = PAGE_SIZE;
+  //             this.pageEvent.length = res.count;
+  //           }
+  //         })
+  //         break;
+  //     }
+  //   }
+  // }
 
   renderList() {
     if (this.isByYear) {
@@ -163,7 +165,8 @@ export class FilmsComponent implements OnInit, OnDestroy {
       this.getFilmsSub = this.filmService.getFilmsByYear(year, PAGE_SIZE, this.pageEvent.pageIndex+1)
       .subscribe(res => {
         if (res.success) {
-          this.films = res.films;
+          this.films = res.data.films;
+          this.pageEvent.length = res.data.count;
         }
       });
     } else {
@@ -174,7 +177,8 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getFilmsSub = this.filmService.getFilmsByTitle(query, PAGE_SIZE, this.pageEvent.pageIndex+1)
           .subscribe(res => {
             if (res.success) {
-              this.films = res.films;
+              this.films = res.data.films;
+              this.pageEvent.length = res.data.count;
             }
           })
           break;
@@ -182,7 +186,8 @@ export class FilmsComponent implements OnInit, OnDestroy {
           this.getFilmsSub = this.filmService.getFilmsByDirector(query, PAGE_SIZE, this.pageEvent.pageIndex+1)
           .subscribe(res => {
             if (res.success) {
-              this.films = res.films;
+              this.films = res.data.films;
+              this.pageEvent.length = res.data.count;
             }
           })
           break;
@@ -192,7 +197,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void {
     this.getFilmsSub.unsubscribe();
-    this.getCountSub.unsubscribe();
+    // this.getCountSub.unsubscribe();
   }
 
 }

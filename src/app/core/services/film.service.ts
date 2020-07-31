@@ -37,24 +37,6 @@ export class FilmService {
     return this.http.get<any>(`${this.API_ENDPOINT}/director?director=${director}&lim=${lim}&page=${page}`);
   }
 
-  // Get total count of films by title
-  // GET api/films/title-count/:title
-  getCountByTitle(title: string):Observable<any> {
-    return this.http.get<any>(`${this.API_ENDPOINT}/title-count/${title}`);
-  }
-
-  // Get total count of films by year
-  // GET api/films/year-count/:year
-  getCountByYear(year: number):Observable<any> {
-    return this.http.get<any>(`${this.API_ENDPOINT}/year-count/${year}`);
-  }
-
-  // Get total count of films by director
-  // GET api/films/director-count/:director
-  getCountByDirector(director: string):Observable<any> {
-    return this.http.get<any>(`${this.API_ENDPOINT}/director-count/${director}`);
-  }
-
   // get previous film
   getPrevious(query: any, id: string, by: string):Observable<any> {
     switch (by) {

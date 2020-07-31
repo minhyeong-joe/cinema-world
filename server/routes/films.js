@@ -3,6 +3,7 @@ const router = express.Router();
 const Film = require('../models/film');
 
 // @desc  Returns `lim` amount of films at `page` page filtered by `year`
+//        Also returns the count of all matching films
 // @route GET /api/films/year?year=:year&page=:page&lim=:lim
 router.get('/year', (req, res) => {
   let year = parseInt(req.query.year);
@@ -11,20 +12,38 @@ router.get('/year', (req, res) => {
   let start = new Date(year, 0);
   let end = new Date(year+1, 0);
   let skipped = (page - 1) * lim;
-  Film.find({release_date: { $gte: start, $lt: end }})
-      .sort({ release_date: 'desc' })
-      .skip(skipped)
-      .limit(lim)
-      .exec((err, films) => {
-        if (err) {
-          res.status(500).json({success: false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, films: films});
-        }
-      });
+  Film.aggregate([
+    { $match: { release_date: { $gte: start, $lt: end }}},
+    { $facet: {
+      "films": [
+        { $sort: { "release_date": -1}},
+        { $skip: skipped },
+        { $limit: lim },
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true} },
+    { $project: {
+      count: "$total.count",
+      films: "$films"
+    }}
+  ])
+  .exec((err, data) => {
+    if (err) {
+      res.status(500).json({success: false, message: "Unknown Error occurred"});
+    } else {
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
+    }
+  });
 });
 
 // @desc  Returns `lim` amount of films at `page` page filtered by `title`
+//        Also returns the count of all matching films
 // @route GET /api/films/title?title=:title&page=:page&lim=:lim
 router.get('/title', (req, res) => {
   let title = req.query.title;
@@ -32,20 +51,38 @@ router.get('/title', (req, res) => {
   let lim = parseInt(req.query.lim);
   let skipped = (page - 1) * lim;
   let titleLike = new RegExp(`.*${title}.*`, "gi");
-  Film.find({title: { $regex: titleLike }})
-      .sort({release_date: 'desc'})
-      .skip(skipped)
-      .limit(lim)
-      .exec((err, films) => {
-        if (err) {
-          res.status(500).json({success: false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, films: films});
-        }
-      });
+  Film.aggregate([
+    { $match: {title: { $regex: titleLike }}},
+    { $facet: {
+      "films": [
+        { $sort: { "release_date": -1}},
+        { $skip: skipped },
+        { $limit: lim },
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true} },
+    { $project: {
+      count: "$total.count",
+      films: "$films"
+    }}
+  ])
+  .exec((err, data) => {
+    if (err) {
+      res.status(500).json({success: false, message: "Unknown Error occurred"});
+    } else {
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
+    }
+  });
 });
 
 // @desc  Returns `lim` amount of films at `page` page filtered by `director`
+//        Also returns the count of all matching films
 // @route GET /api/films/director?director=:director&page=:page&lim=:lim
 router.get('/director', (req, res) => {
   let director = req.query.director;
@@ -53,17 +90,34 @@ router.get('/director', (req, res) => {
   let lim = parseInt(req.query.lim);
   let skipped = (page - 1) * lim;
   let directorLike = new RegExp(`.*${director}.*`, "gi");
-  Film.find({director: { $regex: directorLike }})
-      .sort({release_date: 'desc'})
-      .skip(skipped)
-      .limit(lim)
-      .exec((err, films) => {
-        if (err) {
-          res.status(500).json({success: false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, films: films});
-        }
-      });
+  Film.aggregate([
+    { $match: {director: { $regex:directorLike }}},
+    { $facet: {
+      "films": [
+        { $sort: { release_date: -1 }},
+        { $skip: skipped },
+        { $limit: lim }
+      ],
+      "total": [
+        { $count: 'count' }
+      ]
+    }},
+    { $unwind: { "path": "$total", "preserveNullAndEmptyArrays": true} },
+    { $project: {
+      count: "$total.count",
+      films: "$films"
+    }}
+  ])
+  .exec((err, data) => {
+    if (err) {
+      res.status(500).json({success: false, message: "Unknown Error occurred"});
+    } else {
+      if (data[0]['count'] == null) {
+        data[0]['count'] = 0;
+      }
+      res.status(200).json({success: true, data: data[0]});
+    }
+  });
 });
 
 // @desc  Returns a film retrieved by unique ID
@@ -78,52 +132,6 @@ router.get('/:id', (req, res) => {
       res.status(200).json({success: true, film: film });
     }
   });
-});
-
-// @desc  Returns total count of films matching the year
-// @route GET /api/films/year-count/:year
-router.get('/year-count/:year', (req, res) => {
-  let year = parseInt(req.params['year']);
-  let start = new Date(year, 0);
-  let end = new Date(year+1, 0);
-  Film.countDocuments({release_date: { $gte: start, $lt: end }})
-      .exec((err, count) => {
-        if (err) {
-          res.status(500).json({success:false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, count: count});
-        }
-      });
-});
-
-// @desc  Returns total count of films matching the title
-// @route GET /api/films/title-count/:title
-router.get('/title-count/:title', (req, res) => {
-  let title = req.params['title'];
-  let titleLike = new RegExp(`.*${title}.*`, "gi");
-  Film.countDocuments({title: { $regex: titleLike }})
-      .exec((err, count) => {
-        if (err) {
-          res.status(500).json({success:false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, count: count});
-        }
-      });
-});
-
-// @desc  Returns total count of films matching the director
-// @route GET /api/films/director-count/:director
-router.get('/director-count/:director', (req, res) => {
-  let director = req.params['director'];
-  let directorLike = new RegExp(`.*${director}.*`, "gi");
-  Film.countDocuments({director: { $regex: directorLike }})
-      .exec((err, count) => {
-        if (err) {
-          res.status(500).json({success:false, message: "Unknown Error occurred"});
-        } else {
-          res.status(200).json({success: true, count: count});
-        }
-      });
 });
 
 // @desc   returns prev film among list by year
