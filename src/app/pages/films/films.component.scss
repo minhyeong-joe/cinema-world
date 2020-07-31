@@ -1,4 +1,7 @@
 @import '~src/variables';
+@import '~node_modules/bootstrap/scss/functions';
+@import '~node_modules/bootstrap/scss/_variables';
+@import '~node_modules/bootstrap/scss/mixins/_breakpoints';
 
 // search bar input and button
 .search-bar-container {
@@ -36,5 +39,20 @@
 .paginator {
   * {
     font-size: 1.2rem;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .search-bar-container {
+    flex-direction: column;
+    .mat-form-field {
+      width: 80vw;
+      &:nth-child(2) {
+        margin-top: -1.2rem;
+      }
+    }
+    .mat-raised-button {
+      width: 80vw;
+    }
   }
 }

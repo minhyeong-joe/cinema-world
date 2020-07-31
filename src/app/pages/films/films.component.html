@@ -14,7 +14,7 @@
 
 <div class="films-container">
   <div class="row no-gutters justify-content-center">
-    <div class="col-10" *ngIf="isByYear">
+    <div class="col-12 col-lg-10" *ngIf="isByYear">
       <mat-tab-group (selectedTabChange)="onYearSelect($event)" class="mat-tab-group" [selectedIndex]="selectedTabIndex" mat-stretch-tabs>
         <mat-tab *ngFor="let year of this.years"
                   label="{{year}}">
