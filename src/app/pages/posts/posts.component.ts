@@ -10,7 +10,7 @@ import { Tag } from 'src/app/core/models/tag';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 // posts per page
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 5;
 // max number of pages in one pagination group
 const MAX_PAGINATION = 10;
 
