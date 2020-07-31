@@ -10,9 +10,9 @@ import { Tag } from 'src/app/core/models/tag';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 // posts per page
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 5;
 // max number of pages in one pagination group
-const MAX_PAGINATION = 1;
+const MAX_PAGINATION = 10;
 
 @Component({
   selector: 'app-posts',
@@ -52,7 +52,11 @@ export class PostsComponent implements OnInit {
     this.selectedTags = [];
     // pagination and query parsing
     this.route.queryParams.subscribe(param => {
-      this.currentPage = parseInt(param['p']);
+      if (Object.keys(param).length == 0) {
+        this.currentPage = 1;
+      } else {
+        this.currentPage = parseInt(param['p']);
+      }
       const tags:string[] = [].concat(param['tags'] || []);
       const query: string = param['query'];
 
