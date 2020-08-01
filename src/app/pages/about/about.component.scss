@@ -73,7 +73,7 @@ $container-margin-bottom: $striped-height + 30px;
 }
 
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
   .main-content-container {
     margin-bottom: 50px;
   }
