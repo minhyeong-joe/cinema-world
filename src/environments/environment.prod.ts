@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  ROOT_URI: "https://cinema-world.herokuapp.com"
 };

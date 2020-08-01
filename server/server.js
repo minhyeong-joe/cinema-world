@@ -26,6 +26,10 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 const api = require('./routes');
 app.use('/api', api);
 
+app.get('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '..','public/index.html'));
+});
+
 app.listen(port, () => {
   console.log("Server running on Port " + port);
 });
