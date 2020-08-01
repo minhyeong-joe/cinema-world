@@ -49,12 +49,6 @@ $transition-duration: 0.15s;
   p {
     transform: scaleX(0);
   }
-  p:first-child {
-    transition: transform 0.25s ease-in-out $transition-duration;
-  }
-  p:last-child {
-    transition: transform 0.25s ease-in-out 0.3s;
-  }
 }
 .wrapper {
   cursor: pointer;
@@ -62,12 +56,24 @@ $transition-duration: 0.15s;
 .wrapper:hover {
   .movie-title-container {
     opacity: 1;
-    p {
-      transform: scaleX(1);
+    p:first-child {
+      animation: expand 0.2s ease-in-out $transition-duration forwards;
+    }
+    p:last-child {
+      animation: expand 0.2s ease-in-out 0.24s forwards;
     }
   }
   .img-loaded {
     filter: grayscale(0.5);
+  }
+}
+
+@keyframes expand {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
   }
 }
 
