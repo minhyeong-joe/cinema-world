@@ -18,6 +18,7 @@
     transform: translate(-50%, -50%);
   }
   iframe {
+    animation: fadeIn 0.8s;
     height: 100%;
     width: 100%;
   }
