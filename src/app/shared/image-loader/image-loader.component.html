@@ -1,4 +1,20 @@
 <div class="image-loader">
-  <img [hidden]="isLoading" class="img-loaded img-fluid" [ngClass]="{'img-fixed': fixedSize}" [src]="src" [alt]="alt" (load)="onLoad()">
-  <img *ngIf="isLoading" class="img-loading" [src]="loaderSrc" alt="loading...">
+  <img *ngIf="!iframe"
+        [hidden]="isLoading"
+        class="img-loaded img-fluid"
+        [ngClass]="{'img-fixed': fixedSize}"
+        [src]="src"
+        [alt]="alt"
+        (load)="onLoad()">
+  <iframe *ngIf="iframe"
+          [hidden]="isLoading"
+          [src]="src"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          (load)="onLoad()"></iframe>
+  <img *ngIf="isLoading"
+        class="img-loading"
+        [src]="loaderSrc"
+        alt="loading...">
 </div>

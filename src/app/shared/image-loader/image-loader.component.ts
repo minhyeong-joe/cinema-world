@@ -10,6 +10,7 @@ export class ImageLoaderComponent implements OnInit {
   @Input('alt') public alt: string = "Image not found";
   @Input('loader') public loaderSrc: string;
   @Input('fixedSize') public fixedSize: boolean = true;
+  @Input('iframe') public iframe: boolean = false;
   public isLoading: boolean = true;
 
   constructor() { }

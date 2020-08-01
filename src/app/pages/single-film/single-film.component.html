@@ -59,9 +59,11 @@
 
             <mat-grid-list class="mt-5" cols="1" rowHeight="16:9">
               <mat-grid-tile colspan="1" rowspan="1">
-                <iframe [src]="'https://www.youtube-nocookie.com/embed/' + film?.youtube_trailer_id | safeUrl" frameborder="0"
+                <img-loader [src]="'https://www.youtube-nocookie.com/embed/' + film?.youtube_trailer_id | safeUrl" loader="assets/spinner.gif" [iframe]="true">
+                </img-loader>
+                <!-- <iframe [src]="'https://www.youtube-nocookie.com/embed/' + film?.youtube_trailer_id | safeUrl" frameborder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
+                allowfullscreen></iframe> -->
               </mat-grid-tile>
             </mat-grid-list>
 

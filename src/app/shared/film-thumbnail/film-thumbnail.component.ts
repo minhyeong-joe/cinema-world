@@ -26,8 +26,6 @@ export class FilmThumbnailComponent implements OnInit {
 
   onLoad() {
     this.isLoading = false;
-    console.log("loaded");
-
   }
 
   onClick() {
