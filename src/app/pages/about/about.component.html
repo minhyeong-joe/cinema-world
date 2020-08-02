@@ -21,37 +21,39 @@
 </div>
 <div class="container-fluid contact-us-container">
   <div class="row no-gutters justify-content-center">
-    <div class="col-12 col-md-8">
+    <div class="col-12 col-md-10 col-lg-8">
       <div class="row justify-content-center">
-        <div class="col-12 col-sm-9 col-lg-6 contact-info-container">
-          <p class="h3 text-center heading">Contact us</p>
-          <div class="row phone-row">
-            <div class="col-1 icon-col">
-              <i class="fa fa-phone" aria-hidden="true"></i>
+        <div class="col-12 col-md-9 col-lg-6">
+          <div class="contact-info-container">
+            <p class="h3 text-center heading">Contact us</p>
+            <div class="row phone-row">
+              <div class="col-1 icon-col">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+              </div>
+              <div class="col-11 info-col">
+                {{contact.PHONE}}
+              </div>
             </div>
-            <div class="col-11 info-col">
-              {{contact.PHONE}}
+            <div class="row email-row">
+              <div class="col-1 icon-col">
+                <i class="fa fa-at" aria-hidden="true"></i>
+              </div>
+              <div class="col-11 info-col">
+                {{contact.EMAIL}}
+              </div>
             </div>
-          </div>
-          <div class="row email-row">
-            <div class="col-1 icon-col">
-              <i class="fa fa-at" aria-hidden="true"></i>
-            </div>
-            <div class="col-11 info-col">
-              {{contact.EMAIL}}
-            </div>
-          </div>
-          <div class="row address-row">
-            <div class="col-1 icon-col">
-              <i class="fa fa-map-marker" aria-hidden="true"></i>
-            </div>
-            <div class="col-11 info-col">
-              <p class="mb-2">{{contact.ADDRESS.STREET}}</p>
-              <p class="mb-1">{{contact.ADDRESS.CITY}}, {{contact.ADDRESS.STATE}} {{contact.ADDRESS.ZIP}}</p>
+            <div class="row address-row">
+              <div class="col-1 icon-col">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+              </div>
+              <div class="col-11 info-col">
+                <p class="mb-2">{{contact.ADDRESS.STREET}}</p>
+                <p class="mb-1">{{contact.ADDRESS.CITY}}, {{contact.ADDRESS.STATE}} {{contact.ADDRESS.ZIP}}</p>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-sm-9 col-lg-6 google-map-container">
+        <div class="col-12 col-md-9 col-lg-6 google-map-container">
           <mat-grid-list cols="1">
             <mat-grid-tile>
               <img-loader [iframe]="true" [src]="'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44688.042994020056!2d-117.78764146915896!3d33.64527545736535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dcdd5ea50a1aff%3A0x8f571ffdbbbe407c!2sAmazon%20in%20Orange%20County!5e0!3m2!1sen!2sus!4v1596240170578!5m2!1sen!2sus' | safeUrl" loader="assets/spinner.gif">

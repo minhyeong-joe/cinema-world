@@ -1,8 +1,10 @@
+@import '~src/animations';
+
 $transition-duration: 0.15s;
 
 .image-loader {
   img.img-loaded {
-    animation: fadeIn 0.8s;
+    animation: fadeInAndZoomIn 0.8s forwards;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -17,15 +19,6 @@ $transition-duration: 0.15s;
     left: 50%;
     transform: translate(-50%, -50%);
     pointer-events: none;
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
 
@@ -57,23 +50,13 @@ $transition-duration: 0.15s;
   .movie-title-container {
     opacity: 1;
     p:first-child {
-      animation: expand 0.2s ease-in-out $transition-duration forwards;
+      animation: expandX 0.2s ease-in-out $transition-duration forwards;
     }
     p:last-child {
-      animation: expand 0.2s ease-in-out 0.24s forwards;
+      animation: expandX 0.2s ease-in-out 0.24s forwards;
     }
   }
   .img-loaded {
     filter: grayscale(0.5);
   }
 }
-
-@keyframes expand {
-  0% {
-    transform: scaleX(0);
-  }
-  100% {
-    transform: scaleX(1);
-  }
-}
-

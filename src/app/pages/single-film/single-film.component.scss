@@ -2,13 +2,11 @@
 @import "~node_modules/bootstrap/scss/functions";
 @import "~node_modules/bootstrap/scss/_variables";
 @import "~node_modules/bootstrap/scss/mixins/_breakpoints";
+@import "~src/animations";
 
-.temp {
-  border: 1px solid blue;
-}
 .navigation-container {
     .nav-btn {
-        background-color: rgba(0,0,0,0.25);
+        // background-color: rgba(0,0,0,0.25);
         margin-right: 10px;
         height: 28px;
         width: 28px;
@@ -19,13 +17,17 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        transition: transform 0.15s ease-in-out;
         i {
             font-size: 1rem;
         }
         &.disabled {
-          background-color: rgba(0,0,0,0.08);
+          // background-color: rgba(0,0,0,0.08);
           color: rgba(0,0,0,0.25);
           pointer-events: none;
+        }
+        &:hover, &:focus {
+          transform: scale(1.2);
         }
     }
     .prev>i {
@@ -38,6 +40,12 @@
 .label {
     font-weight: bold;
     font-size: 1rem;
+}
+.content {
+  align-self: flex-end;
+  font-family: $lato;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
 }
 
 iframe {

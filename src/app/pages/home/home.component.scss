@@ -2,6 +2,7 @@
 @import '~node_modules/bootstrap/scss/functions';
 @import '~node_modules/bootstrap/scss/_variables';
 @import '~node_modules/bootstrap/scss/mixins/_breakpoints';
+@import '~src/animations';
 
 .banner-container {
   position: relative;
@@ -10,6 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: slideDown 0.5s forwards;
 }
 
 .banner-filter {
@@ -38,8 +40,12 @@
   }
 }
 
-mat-divider {
-  border-top-width: 2px;
+.latest-film {
+  background-color: $primary-blue;
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+  padding: 1.6rem 0;
+  font-family: $syncopate;
 }
 
 @include media-breakpoint-down(md) {

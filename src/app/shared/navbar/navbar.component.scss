@@ -20,10 +20,28 @@
 .nav-item {
   text-transform: uppercase;
   margin-right: 15px;
-  font-family: $syncopate;
   font-size: 1.2rem;
+  font-weight: bold;
+  position: relative;
+  &::after {
+    content: '';
+    border-bottom: 1px solid rgba(0,0,0,0.9);
+    width: 100%;
+    transform: scaleX(0);
+    position: absolute;
+    transition: transform 0.15s ease-out;
+  }
+  &:hover {
+    &::after {
+      transform: scaleX(1);
+    }
+  }
   &.active {
     border-bottom: 1px solid rgba(0,0,0,0.9);
+  }
+
+  .nav-link {
+    transition: color 0.15s ease-out;
   }
 }
 

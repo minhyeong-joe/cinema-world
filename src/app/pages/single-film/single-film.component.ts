@@ -18,30 +18,31 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
   public film: Film;
   public prevId: string;
   public nextId: string;
+  public dataReady: boolean;
 
   public backUrl: string = '/films';
   public queryParams: Params;
 
   public galleryCols: number;
 
+
   constructor(private filmService: FilmService,
               private route: ActivatedRoute,
               private session: SessionStorageService) { }
 
   ngOnInit(): void {
-    this.queryParams = this.session.getFilmParams();
-    if (this.queryParams == null) {
-      this.backUrl = '/';
-    }
+
     // get ID from path
     this.getIdSub = this.route.params.subscribe(params => {
       const id = params['id'];
-      // find prev & next films
-      const session = this.session.getFilmParams();
-      if (session) {
-        const query = session['year'] || session['title'] || session['director'];
-        const by = session['year'] != null? "year" : (session['title'] != null? "title" : "director");
-        this.filmService.getPrevious(query, id, by)
+      this.queryParams = this.session.getFilmParams();
+      if (this.queryParams == null) {
+        this.backUrl = '/';
+      } else {
+        // find prev & next films
+      const query = this.queryParams['year'] || this.queryParams['title'] || this.queryParams['director'];
+      const by = this.queryParams['year'] != null? "year" : (this.queryParams['title'] != null? "title" : "director");
+      this.filmService.getPrevious(query, id, by)
         .subscribe(res => {
           if (res.success) {
             this.prevId = res.prev;
@@ -54,7 +55,6 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
           }
         });
       }
-
       // load film by id
       this.getFilmSub = this.filmService.getFilmById(id)
       .subscribe((res:any) => {
@@ -73,17 +73,14 @@ export class SingleFilmComponent implements OnInit, OnDestroy {
             });
          },0)
         });
+    });
 
-      });
 
       this.galleryCols = window.innerWidth >= 576? 2: 1;
-      console.log(this.galleryCols);
-
   }
 
   onResize(event) {
     this.galleryCols = event.target.innerWidth >= 576? 2: 1;
-    console.log(this.galleryCols);
   }
 
   ngOnDestroy(): void {
