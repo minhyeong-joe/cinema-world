@@ -1,47 +1,49 @@
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div *ngIf="post" class="col-12 col-md-10 col-lg-9">
+<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-9">
 
-            <button class="btn btn-rectangle mt-3" routerLink="/posts" [queryParams]="sessionParams">
-                <p><i class="fa fa-bars mr-3" aria-hidden="true"></i> Back To List</p>
-            </button>
+    <button class="btn btn-rectangle mt-3" routerLink="/posts" [queryParams]="sessionParams">
+      <p><i class="fa fa-bars mr-3" aria-hidden="true"></i> Back To List</p>
+    </button>
 
-            <p class="display-4 mt-3">
-              {{post.title}}
-            </p>
+    <div *ngIf="post" class="container-fluid loading-wrapper">
+      <p class="display-4 mt-3">
+        {{post.title}}
+      </p>
 
-            <mat-grid-list cols="1" rowHeight="2:1">
-              <mat-grid-tile colspan="1" rowspan="1">
-                <img-loader [src]="post.cover_url || '../../../assets/img/poster.jpg'" alt="cover image" loader="assets/spinner.gif">
-                </img-loader>
-              </mat-grid-tile>
-            </mat-grid-list>
+      <mat-grid-list cols="1" rowHeight="2:1">
+        <mat-grid-tile colspan="1" rowspan="1">
+          <img-loader [src]="post.cover_url || '../../../assets/img/poster.jpg'" alt="cover image" loader="assets/spinner.gif">
+          </img-loader>
+        </mat-grid-tile>
+      </mat-grid-list>
 
-            <div class="author-row">
-                <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author._id + '.jpg'}}" alt="" class="author-img">
-                <div class="name-date">
-                    <p class="name">By <span>{{post.author.username}}</span></p>
-                    <p class="date mb-0">Created: {{post.post_date | date:'yyyy-MM-dd'}}</p>
-                    <p class="date">Last Modified: {{post.last_modified | date:'yyyy-MM-dd'}}</p>
-                </div>
-            </div> <!-- end of author-row -->
+      <div class="author-row">
+          <img src="{{'https://s3-us-west-1.amazonaws.com/cinema-world.media/admins/'+ post.author._id + '.jpg'}}" alt="" class="author-img">
+          <div class="name-date">
+              <p class="name">By <span>{{post.author.username}}</span></p>
+              <p class="date mb-0">Created: {{post.post_date | date:'yyyy-MM-dd'}}</p>
+              <p class="date">Last Modified: {{post.last_modified | date:'yyyy-MM-dd'}}</p>
+          </div>
+      </div> <!-- end of author-row -->
 
-            <section *ngFor="let section of post.sections">
-              <mat-grid-list *ngIf="section.cover_url" cols="1" rowHeight="2:1">
-                <mat-grid-tile colspan="1" rowspan="1">
-                  <img-loader [src]="section.cover_url" alt="supplementary image" loader="assets/spinner.gif">
-                  </img-loader>
-                </mat-grid-tile>
-              </mat-grid-list>
+      <section *ngFor="let section of post.sections">
+        <mat-grid-list *ngIf="section.cover_url" cols="1" rowHeight="2:1">
+          <mat-grid-tile colspan="1" rowspan="1">
+            <img-loader [src]="section.cover_url" alt="supplementary image" loader="assets/spinner.gif">
+            </img-loader>
+          </mat-grid-tile>
+        </mat-grid-list>
 
-              <p *ngIf="section.subheading" class="h2 mt-3 text-center">{{section.subheading}}</p>
-              <div class="content">
-                  <p *ngFor="let paragraph of section.content">{{paragraph}}</p>
-              </div>
-            </section>
-            <button class="btn btn-rectangle mb-4 mx-auto" routerLink="/posts" [queryParams]="sessionParams">
-                <p><i class="fa fa-bars mr-3" aria-hidden="true"></i> Back To List</p>
-            </button>
+        <p *ngIf="section.subheading" class="h2 mt-3 text-center">{{section.subheading}}</p>
+        <div class="content">
+            <p *ngFor="let paragraph of section.content">{{paragraph}}</p>
         </div>
+      </section>
+      <button class="btn btn-rectangle mb-4 mx-auto" routerLink="/posts" [queryParams]="sessionParams">
+          <p><i class="fa fa-bars mr-3" aria-hidden="true"></i> Back To List</p>
+      </button>
     </div>
+  </div>
 </div>
+
+<img *ngIf="!post" src="assets/spinner.gif" alt="" class="loader">
