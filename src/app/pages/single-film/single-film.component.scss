@@ -4,6 +4,10 @@
 @import "~node_modules/bootstrap/scss/mixins/_breakpoints";
 @import "~src/animations";
 
+.loaded {
+  animation: slideDown 0.25s ease-out;
+}
+
 .navigation-container {
     .nav-btn {
         // background-color: rgba(0,0,0,0.25);
