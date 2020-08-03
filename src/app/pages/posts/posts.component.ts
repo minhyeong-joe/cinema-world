@@ -10,7 +10,7 @@ import { Tag } from 'src/app/core/models/tag';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 // posts per page
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 1;
 // max number of pages in one pagination group
 const MAX_PAGINATION = 10;
 
@@ -133,6 +133,7 @@ export class PostsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.posts = null;
         this.allTags = result.allTags;
         this.selectedTags = result.selectedTags;
         this.searchForm.get('query').setValue('');
@@ -142,6 +143,7 @@ export class PostsComponent implements OnInit {
   }
 
   onClickAllTopics():void {
+    this.posts = null;
     this.selectedTags = [];
     this.searchForm.get('query').setValue('');
     this.activeQuery = '';
@@ -149,6 +151,7 @@ export class PostsComponent implements OnInit {
   }
 
   onClickSearch() {
+    this.posts = null;
     this.selectedTags = [];
     this.activeQuery = this.searchForm.get('query').value;
     this.router.navigate(['/posts'], { queryParams: this.generateQueryParams(1)});

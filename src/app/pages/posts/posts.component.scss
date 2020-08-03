@@ -1,5 +1,16 @@
 @import "~src/variables";
 @import "~src/styles";
+@import '~src/animations';
+
+.loading-wrapper {
+  animation: slideDown 0.4s ease-out;
+}
+.loader {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  height: 50px;
+}
 
 .filter-row {
   margin: 30px 0;
