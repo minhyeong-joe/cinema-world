@@ -115,12 +115,26 @@ i {
     z-index: 10;
     padding-bottom: 10px;
     box-shadow: 0 2px 4px -2px rgba(0,0,0,.4);
+    transition: height 0.25s ease-in-out;
+    display: block;
+    overflow-y: hidden;
+    &:not(.show) {
+      height: 0;
+      display: block;
+    }
+    &.show {
+      height: 10.1875rem;
+    }
   }
   .nav-item {
     text-align: center;
     margin: 0;
     &.active {
       border: none;
+    }
+    &::after {
+      content: '';
+      display: none;
     }
   }
   .sns-container {
@@ -138,6 +152,9 @@ i {
   }
   .navbar-collapse {
     top: 66px;
+    &.show {
+      height: 9.8125rem;
+    }
   }
   .navbar-brand {
     font-size: 1.4rem;
